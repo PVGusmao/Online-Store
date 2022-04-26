@@ -1,26 +1,14 @@
 import React from 'react';
-import { fetchData } from '../services/api';
+import Header from '../components/Header';
+import CommerceContext from '../context/CommerceContext';
 
 class Home extends React.Component {
-
-  componentDidMount() {
-    this.handleData();
-  }
-
-  handleData = async () => {
-    const data = await fetchData()
-    this.setState({
-      data,
-    })
-  }
-
   render() {
     return (
-      <>
-        Início
-      </>
+      <Header />
     );
   }
 }
 
+Home.contextType = CommerceContext;
 export default Home;
