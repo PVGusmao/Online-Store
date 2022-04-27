@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CommerceContext from './CommerceContext';
-import { fetchData } from '../services/api';
+import { fetchCurrency, fetchData } from '../services/api';
 
 class CommerceProvider extends React.Component {
   constructor(props) {
@@ -9,12 +9,32 @@ class CommerceProvider extends React.Component {
 
     this.state = {
       data: [],
+      currency: [],
+      actualCurrency: 'USD',
+      categorySelected: 'all',
     }
   }
 
-  handleAPI = async () => {
+  handleCompleteAPI = async () => {
     const data = await fetchData();
     this.setState({data});
+  }
+
+  handleCurrencies = async () => {
+    const data = await fetchCurrency();
+    this.setState({ currency: data })
+  }
+
+  handleChangeCurrency = ({ target }) => {
+    this.setState({
+      actualCurrency: target.value,
+    })
+  }
+
+  handleChangeCategory = ({ target }) => {
+    this.setState({
+      categorySelected: target.name,
+    })
   }
   
   render() {
@@ -24,7 +44,10 @@ class CommerceProvider extends React.Component {
         <Provider
           value={ {
             ...this.state,
-            handleAPI: this.handleAPI,
+            handleCompleteAPI: this.handleCompleteAPI,
+            handleCurrencies: this.handleCurrencies,
+            handleChangeCurrency: this.handleChangeCurrency,
+            handleChangeCategory: this.handleChangeCategory,
           } }
         >
           {children}

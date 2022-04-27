@@ -42,3 +42,25 @@ export async function fetchData() {
   const data = await responde.json();
   return data;
 }
+
+
+export async function fetchCurrency() {
+  const DATA = `{
+    currencies {
+      label
+      symbol
+    }
+  }`
+  
+  const obj = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({query: DATA})
+  }
+
+  const responde = await fetch('http://localhost:4000/graphql', obj);
+  const data = await responde.json();
+  return data.data.currencies;
+}

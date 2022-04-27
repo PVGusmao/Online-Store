@@ -2,11 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import CommerceContext from '../context/CommerceContext';
 
+const URL_CART = "https://img.icons8.com/external-good-lines-kalash/32/000000/external-cart-marketing-and-digital-marketing-good-lines-kalash.png";
+
 const Head = styled.header`
   align-items: center;
   border-bottom: 1px solid black;
   display: flex;
-  height: 75px;
+  height: 80px;
+  justify-content: space-between;
   width: 100%;
   `;
 
@@ -14,36 +17,89 @@ const Nav = styled.nav`
   align-items: center;
   color: white;
   display: flex;
-  height: 40px;
+  height: 100%;
   justify-content: space-evenly;
   margin: 10px;
-  width: 200px;
+  width: 300px;
 `;
 
-const H4 = styled.h4`
+const Button = styled.button.attrs((/* props */) => ({ tabIndex: 0 }))`
+  align-items: center;
+  background: none;
+	border: none;
   color: black;
+  cursor: pointer;
+  display: flex;
+  font-size: 16px;
+  height: 100%;
+	outline: inherit;
+	padding: 0;
+  
+  &:hover {
+    color: #5ece7b;
+    border-bottom: 2px solid #5ece7b;
+  }
+`;
+
+const WrapperCartCurrency = styled.section`
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 20px;
+  width: 150px;
+`;
+
+const CurrencySelect = styled.select`
+  height: 30px;
+  width: auto;
+`;
+
+const CurrencyOptions = styled.option`
+  text-size: 20px;
+`;
+
+const Image = styled.img`
   cursor: pointer;
 `;
 
 class Header extends React.Component {
   componentDidMount() {
-    const { handleAPI } = this.context;
-    handleAPI();
+    const { handleCompleteAPI, handleCurrencies } = this.context;
+    handleCompleteAPI();
+    handleCurrencies();
   }
 
   render() {
-    const { data } = this.context;
+    const { data, currency, handleChangeCategory, handleChangeCurrency } = this.context;
     return (
       <Head>
         <Nav>
           {
             data.length !== 0 && data.data.categories.map((element, index) => (
-              <H4 key={ index }>
-                { element.name }
-              </H4>
+              <Button onClick={ (e) => handleChangeCategory(e) } name={ element.name } key={ index }>
+                { element.name.toUpperCase() }
+              </Button>
             ))
           }
         </Nav>
+        <WrapperCartCurrency>
+          <CurrencySelect
+            onChange={ (e) => handleChangeCurrency(e) }
+            name="currency"
+            id="currency">
+            {
+              currency.map((element, index) => (
+                <CurrencyOptions
+                  value={ element.label }
+                  key={ index }
+                >
+                  { `${ element.symbol } ${ element.label }` }
+                </CurrencyOptions>
+              ))
+            }
+          </CurrencySelect>
+          <Image src={ URL_CART } alt="Shopping Cart Icon"/>
+        </WrapperCartCurrency>
       </Head>
     );
   }
