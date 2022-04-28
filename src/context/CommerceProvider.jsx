@@ -12,17 +12,18 @@ class CommerceProvider extends React.Component {
       currency: [],
       actualCurrency: 'USD',
       categorySelected: 'all',
+      products: [],
     }
   }
 
   handleCompleteAPI = async () => {
     const data = await fetchData();
-    this.setState({data});
-  }
-
-  handleCurrencies = async () => {
-    const data = await fetchCurrency();
-    this.setState({ currency: data })
+    const currency = await fetchCurrency();
+    this.setState({
+      data,
+      currency,
+      products: data.data.categories,
+    });
   }
 
   handleChangeCurrency = ({ target }) => {
@@ -46,8 +47,8 @@ class CommerceProvider extends React.Component {
             ...this.state,
             handleCompleteAPI: this.handleCompleteAPI,
             handleCurrencies: this.handleCurrencies,
-            handleChangeCurrency: this.handleChangeCurrency,
             handleChangeCategory: this.handleChangeCategory,
+            handleChangeCurrency: this.handleChangeCurrency,
           } }
         >
           {children}

@@ -64,9 +64,8 @@ const Image = styled.img`
 
 class Header extends React.Component {
   componentDidMount() {
-    const { handleCompleteAPI, handleCurrencies } = this.context;
+    const { handleCompleteAPI } = this.context;
     handleCompleteAPI();
-    handleCurrencies();
   }
 
   render() {
