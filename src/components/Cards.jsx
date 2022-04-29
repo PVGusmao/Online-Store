@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styledComponents from 'styled-components';
 import CommerceContext from '../context/CommerceContext';
+import { Link } from 'react-router-dom';
 
 const Card = styledComponents.section.attrs(() => ({ tabIndex: 0 }))`
   border: 1px solid rgba(0, 0, 0, 0.03);
@@ -49,11 +50,16 @@ const OutOfStock = styledComponents.h2`
 
 class Cards extends React.Component {
   render() {
-    const { item: { name, gallery, prices, inStock } } = this.props;
+    const { item, item: { name, gallery, prices, inStock, id } } = this.props;
     const { actualCurrency } = this.context;
     return (
       <Card>
-        <Image style={ { opacity: !inStock ? 0.300 : 1 } } src={ gallery[0] } alt={ name } />
+        <Link to={ {
+          pathname: `/productdetail/${id}`,
+          state: item,
+        } }>
+          <Image style={ { opacity: !inStock ? 0.300 : 1 } } src={ gallery[0] } alt={ name } />
+        </Link>
         <Name style={ { opacity: !inStock ? 0.300 : 1 } }>
           { name }
         </Name>

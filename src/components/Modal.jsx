@@ -8,7 +8,7 @@ const ModalWrapper = styledComponents.div`
   display: flex;
   flex-direction: column;
   height: 677px;
-  justify-content: center;
+  justify-content: space-between;
   right: 72px;
   padding: 32px 16px;
   position: absolute;
@@ -17,7 +17,6 @@ const ModalWrapper = styledComponents.div`
 `;
 
 const ModalHeader = styledComponents.header`
-
 `;
 
 const ModalContent = styledComponents.main`

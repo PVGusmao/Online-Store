@@ -8,7 +8,7 @@ class WillOpen extends React.Component {
     return (
       <Switch>
         <Route exact path="/" component={ Home }/>
-        <Route path="/productdetail" component={ ProductDetail }/>
+        <Route path="/productdetail/:id" component={ ProductDetail }/>
       </Switch>
     );
   }

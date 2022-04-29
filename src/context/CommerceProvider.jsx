@@ -53,7 +53,6 @@ class CommerceProvider extends React.Component {
           value={ {
             ...this.state,
             handleCompleteAPI: this.handleCompleteAPI,
-            handleCurrencies: this.handleCurrencies,
             handleChangeCategory: this.handleChangeCategory,
             handleChangeCurrency: this.handleChangeCurrency,
             handleModal: this.handleModal,

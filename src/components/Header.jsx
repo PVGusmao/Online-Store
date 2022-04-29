@@ -82,14 +82,17 @@ class Header extends React.Component {
   }
 
   render() {
-    const { data, currency, handleModal,
+    const { data, currency, handleModal, categorySelected,
       handleChangeCategory, handleChangeCurrency } = this.context;
     return (
       <Head>
         <Nav>
           {
             data.length !== 0 && data.data.categories.map((element, index) => (
-              <Button onClick={ (e) => handleChangeCategory(e) } name={ element.name } key={ index }>
+              <Button style={ {
+                color: categorySelected === element.name  ? '#5ece7b' : 'black',
+                borderBottom: categorySelected === element.name ? '2px solid #5ece7b' : '0px solid #5ece7b',
+              } } onClick={ (e) => handleChangeCategory(e) } name={ element.name } key={ index }>
                 { element.name.toUpperCase() }
               </Button>
             ))
