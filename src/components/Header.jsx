@@ -6,7 +6,6 @@ const URL_CART = "https://img.icons8.com/external-good-lines-kalash/32/000000/ex
 
 const Head = styled.header`
   align-items: center;
-  border-bottom: 1px solid black;
   display: flex;
   height: 80px;
   justify-content: space-between;
@@ -45,7 +44,7 @@ const WrapperCartCurrency = styled.section`
   align-items: center;
   display: flex;
   justify-content: space-between;
-  padding-right: 20px;
+  margin-right: 100px;
   width: 150px;
 `;
 
@@ -65,6 +64,17 @@ const Image = styled.img`
   cursor: pointer;
 `;
 
+const ButtonCart = styled.button`
+  background: none;
+  border: none;
+  color: black;
+  cursor: pointer;
+  height: 100%;
+  margin-right: 10px;
+  outline: inherit;
+  padding: 0;
+`;
+
 class Header extends React.Component {
   componentDidMount() {
     const { handleCompleteAPI } = this.context;
@@ -72,7 +82,8 @@ class Header extends React.Component {
   }
 
   render() {
-    const { data, currency, handleChangeCategory, handleChangeCurrency } = this.context;
+    const { data, currency, handleModal,
+      handleChangeCategory, handleChangeCurrency } = this.context;
     return (
       <Head>
         <Nav>
@@ -100,7 +111,9 @@ class Header extends React.Component {
               ))
             }
           </CurrencySelect>
-          <Image src={ URL_CART } alt="Shopping Cart Icon"/>
+          <ButtonCart onClick={ handleModal }>
+            <Image src={ URL_CART } alt="Shopping Cart Icon"/>
+          </ButtonCart>
         </WrapperCartCurrency>
       </Head>
     );

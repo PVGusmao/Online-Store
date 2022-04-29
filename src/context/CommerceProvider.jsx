@@ -13,7 +13,14 @@ class CommerceProvider extends React.Component {
       actualCurrency: 'USD',
       categorySelected: 'all',
       products: [],
+      showModal: false,
     }
+  }
+
+  handleModal = () => {
+    this.setState((prevState) => ({
+      showModal: !prevState.showModal,
+    }))
   }
 
   handleCompleteAPI = async () => {
@@ -49,6 +56,7 @@ class CommerceProvider extends React.Component {
             handleCurrencies: this.handleCurrencies,
             handleChangeCategory: this.handleChangeCategory,
             handleChangeCurrency: this.handleChangeCurrency,
+            handleModal: this.handleModal,
           } }
         >
           {children}

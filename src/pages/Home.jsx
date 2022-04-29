@@ -2,6 +2,7 @@ import React from 'react';
 import styledComponents from 'styled-components';
 import Cards from '../components/Cards';
 import Header from '../components/Header';
+import Modal from '../components/Modal';
 import CommerceContext from '../context/CommerceContext';
 
 const Wrapper = styledComponents.section`
@@ -24,12 +25,26 @@ const CardSection = styledComponents.section`
   justify-content: center;
 `;
 
+const Shadow = styledComponents.div`
+  background-color: rgba(0, 0, 0, 0.3);
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+`;
+
 class Home extends React.Component {
   render() {
-    const { categorySelected, products } = this.context;
+    const { showModal, handleModal, categorySelected, products } = this.context;
     return (
       <>
         <Header />
+        {
+          showModal && <Shadow onClick={ handleModal }></Shadow>
+        }
+        {
+          showModal && <Modal showModal={ showModal } />
+        }
         <Wrapper>
           <ContainerTitle>
             <h1>{ categorySelected.toUpperCase() }</h1>
