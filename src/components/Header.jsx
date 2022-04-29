@@ -23,7 +23,7 @@ const Nav = styled.nav`
   width: 300px;
 `;
 
-const Button = styled.button.attrs((/* props */) => ({ tabIndex: 0 }))`
+const Button = styled.button.attrs(() => ({ tabIndex: 0 }))`
   align-items: center;
   background: none;
 	border: none;
@@ -50,6 +50,9 @@ const WrapperCartCurrency = styled.section`
 `;
 
 const CurrencySelect = styled.select`
+  -moz-appearance: none;
+  -ms-appearance: none;
+  border:none;
   height: 30px;
   width: auto;
 `;
