@@ -5,7 +5,12 @@ import Header from '../components/Header';
 import Modal from '../components/Modal';
 import CommerceContext from '../context/CommerceContext';
 
-const Wrapper = styledComponents.section`
+const ExternalWrapper = styledComponents.section`
+  height: 100%;
+  position: relative;
+`;
+
+const InternalWrapper = styledComponents.section`
   display: flex;
   flex-direction: column;
 `;
@@ -37,15 +42,15 @@ class Home extends React.Component {
   render() {
     const { showModal, handleModal, categorySelected, products } = this.context;
     return (
-      <>
+      <ExternalWrapper>
         <Header />
-        {
-          showModal && <Shadow onClick={ handleModal }></Shadow>
-        }
         {
           showModal && <Modal showModal={ showModal } />
         }
-        <Wrapper>
+        {
+          showModal && (<Shadow onClick={ handleModal } />)
+        }
+        <InternalWrapper>
           <ContainerTitle>
             <h1>{ categorySelected.toUpperCase() }</h1>
           </ContainerTitle>
@@ -60,8 +65,8 @@ class Home extends React.Component {
               ))
             }
           </CardSection>
-        </Wrapper>
-      </>
+        </InternalWrapper>
+      </ExternalWrapper>
     );
   }
 }
