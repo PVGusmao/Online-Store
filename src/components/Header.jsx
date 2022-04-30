@@ -1,8 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import CommerceContext from '../context/CommerceContext';
 
 const URL_CART = "https://img.icons8.com/external-good-lines-kalash/32/000000/external-cart-marketing-and-digital-marketing-good-lines-kalash.png";
+const URL_BACK = "https://cdn-icons-png.flaticon.com/512/860/860825.png";
 
 const Head = styled.header`
   align-items: center;
@@ -62,6 +64,7 @@ const CurrencyOptions = styled.option`
 
 const Image = styled.img`
   cursor: pointer;
+  width: 32px;
 `;
 
 const ButtonCart = styled.button`
@@ -81,6 +84,10 @@ class Header extends React.Component {
     handleCompleteAPI();
   }
 
+  handleBack = () => {
+
+  }
+
   render() {
     const { data, currency, handleModal, categorySelected,
       handleChangeCategory, handleChangeCurrency } = this.context;
@@ -98,6 +105,9 @@ class Header extends React.Component {
             ))
           }
         </Nav>
+        <Link to="/">
+          <Image src={ URL_BACK } alt="Back Icon"/>
+        </Link>
         <WrapperCartCurrency>
           <CurrencySelect
             onChange={ (e) => handleChangeCurrency(e) }

@@ -49,9 +49,116 @@ const ImageSelected = styledComponents.section`
 `;
 
 const Description = styledComponents.section`
-  background-color: rgba(200, 0, 0, 1);
+  // background-color: rgba(200, 0, 0, 1);
   height: 800px;
-  width: 400px;
+  margin-left: 20px;
+  width: 300px;
+`;
+
+const Name = styledComponents.p`
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 27px;
+`;
+
+const Brand = styledComponents.p`
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 27px;
+  margin-bottom: 43px;
+  margin-top: 16px;
+`;
+
+const AttributesWrapper = styledComponents.section`
+  
+`;
+
+const AttributeTitle = styledComponents.p`
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 18px;
+  padding-bottom: 8px;
+`;
+
+const AttributeList = styledComponents.div`
+  align-items: center;
+  display: flex;
+  height: auto;
+  margin-bottom: 24px;
+  width: auto;
+`;
+
+const AttributeItems = styledComponents.button`
+  background-color: white;
+  border: 1px solid black;
+  cursor: pointer;
+  height: 45px;
+  margin-right: 10px;
+  margin-bottom: 24px;
+  padding: 10px;
+  width: 63px;
+`;
+
+const PriceWrapper = styledComponents.section`
+
+`
+
+const PriceTitle = styledComponents.p`
+  font-family: 'Roboto Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+`
+
+const PriceValue = styledComponents.p`
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  height: 46px;
+  line-height: 18px;
+  margin-top: 10px;
+  width: 86px;
+`
+
+const ButtomAddToCart = styledComponents.button.attrs(() => ({ tabIndex: 0 }))`
+  align-items: center;
+  background-color: #5ECE7B;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 120%;
+  height: 52px;
+  left: 929px;
+  padding: 16px 32px;
+  top: 560px;
+  width: 292px;
+
+  &:active {
+    background-color: #56bf71;
+  }
+`;
+
+const DetailsAbout = styledComponents.p`
+  bottom: 178px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  height: 103px;
+  left: calc(50% - 292px/2 + 355px);
+  line-height: 159.96%;
+  margin-top: 40px;
+  overflow-y: auto;
+  width: 292px;
 `;
 
 class DetailCard extends React.Component {
@@ -71,8 +178,10 @@ class DetailCard extends React.Component {
 
   render() {
     const { clickedImage } = this.state;
+    const { actualCurrency } = this.context;
     const { details: { attributes, prices, name, inStock,
-      gallery, description, category } } = this.props;
+      gallery, description, brand } } = this.props;
+
     return (
       <Wrapper>
         <ImageOptions>
@@ -88,11 +197,39 @@ class DetailCard extends React.Component {
             ))
           }
         </ImageOptions>
-        <ImageSelected id={ gallery && gallery[0] } name={ clickedImage }>
-
-        </ImageSelected>
+        <ImageSelected id={ gallery && gallery[0] } name={ clickedImage } />
         <Description>
-
+          <Name>{ name }</Name>
+          <Brand>{ brand }</Brand>
+          {
+            attributes && attributes.map((element, ind) => (
+              <AttributesWrapper key={ ind }>
+                <AttributeTitle>{ element.name.toUpperCase() }: </AttributeTitle>
+                  <AttributeList>
+                    {
+                      element.items.map((items, index) => (
+                        <AttributeItems style={{
+                          backgroundColor: element.name.toLowerCase() === 'color' && items.value
+                        }} key={ index } id={ items.id }>{ element.name.toLowerCase() === 'color' ? '' : items.value }</AttributeItems>
+                      ))
+                    }
+                  </AttributeList>
+              </AttributesWrapper>
+            ))
+          }
+          <PriceWrapper>
+            <PriceTitle>PRICE: </PriceTitle>
+            <PriceValue>
+              {
+                prices && `${prices.find((element) => element.currency.label === actualCurrency).currency.symbol}
+                  ${prices.find((element) => element.currency.label === actualCurrency).amount}`
+              }
+            </PriceValue>
+          </PriceWrapper>
+          <ButtomAddToCart>
+            ADD TO CART
+          </ButtomAddToCart>
+          <DetailsAbout dangerouslySetInnerHTML={{ __html: description }} />
         </Description>
       </Wrapper>
     );
