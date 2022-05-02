@@ -13,7 +13,6 @@ const Wrapper = styledComponents.section`
 `;
 
 const ImageOptions = styledComponents.section`
-  // background-color: rgba(125, 0, 125, 1);
   height: 800px;
   margin: 0px 30px;
   width: 100px;
@@ -33,11 +32,7 @@ const ImageOptionsItem = styledComponents.section`
 `;
 
 const ImageSelected = styledComponents.section`
-  align-items: center;
-  // background-color: rgba(0, 125, 0, 1);
-  display: flex;
-  height: 800px;
-  justify-content: center;
+  height: 700px;
   width: 700px;
 
   ${(props) => {
@@ -49,7 +44,6 @@ const ImageSelected = styledComponents.section`
 `;
 
 const Description = styledComponents.section`
-  // background-color: rgba(200, 0, 0, 1);
   height: 800px;
   margin-left: 20px;
   width: 300px;
@@ -120,7 +114,7 @@ const PriceValue = styledComponents.p`
   height: 46px;
   line-height: 18px;
   margin-top: 10px;
-  width: 86px;
+  width: 90px;
 `
 
 const ButtomAddToCart = styledComponents.button.attrs(() => ({ tabIndex: 0 }))`
@@ -170,10 +164,22 @@ class DetailCard extends React.Component {
     }
   }
 
-  handleImage = (target, element) => {
+  handleImage = (element) => {
     this.setState({
       clickedImage: element,
     })
+  }
+
+  handleAttributes = ({ target }) => {
+    const attributesOptions = target.closest('div').childNodes;
+    attributesOptions.forEach((element) => (
+      element.classList.remove('selected-attribute', 'selected-attribute-color')
+    ))
+    if (target.id === 'color') {
+      target.classList.add('selected-attribute-color')
+    } else {
+      target.classList.add('selected-attribute');
+    }
   }
 
   render() {
@@ -189,7 +195,7 @@ class DetailCard extends React.Component {
             gallery && gallery.map((element, index) => (
               <ImageOptionsItem
                 className="images"
-                onClick={({ target }) => this.handleImage(target, element) }
+                onClick={() => this.handleImage(element) }
                 id={ element }
                 key={ index }
                 name={ element }
@@ -197,7 +203,10 @@ class DetailCard extends React.Component {
             ))
           }
         </ImageOptions>
-        <ImageSelected id={ gallery && gallery[0] } name={ clickedImage } />
+        <ImageSelected
+          id={ gallery && gallery[0] }
+          name={ clickedImage }
+        />
         <Description>
           <Name>{ name }</Name>
           <Brand>{ brand }</Brand>
@@ -208,9 +217,17 @@ class DetailCard extends React.Component {
                   <AttributeList>
                     {
                       element.items.map((items, index) => (
-                        <AttributeItems style={{
-                          backgroundColor: element.name.toLowerCase() === 'color' && items.value
-                        }} key={ index } id={ items.id }>{ element.name.toLowerCase() === 'color' ? '' : items.value }</AttributeItems>
+                        <AttributeItems
+                          style={{
+                            backgroundColor: element.name.toLowerCase() === 'color' && items.value
+                          }}
+                          className="attribute-item"
+                          key={ index }
+                          id={ element.id.toLowerCase() }
+                          onClick={ this.handleAttributes}
+                        >
+                          { element.name.toLowerCase() === 'color' ? '' : items.value }
+                        </AttributeItems>
                       ))
                     }
                   </AttributeList>
