@@ -2,9 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import CommerceContext from '../context/CommerceContext';
-
-const URL_CART = "https://img.icons8.com/external-good-lines-kalash/32/000000/external-cart-marketing-and-digital-marketing-good-lines-kalash.png";
-const URL_BACK = "https://cdn-icons-png.flaticon.com/512/860/860825.png";
+import BACK_LINK from '../images/back.svg';
+import SHOPPING_CART from '../images/shoppingCart.svg';
 
 const Head = styled.header`
   align-items: center;
@@ -106,7 +105,7 @@ class Header extends React.Component {
           }
         </Nav>
         <Link to="/">
-          <Image src={ URL_BACK } alt="Back Icon"/>
+          <Image src={ BACK_LINK } alt="Back Icon"/>
         </Link>
         <WrapperCartCurrency>
           <CurrencySelect
@@ -125,7 +124,7 @@ class Header extends React.Component {
             }
           </CurrencySelect>
           <ButtonCart onClick={ handleModal }>
-            <Image src={ URL_CART } alt="Shopping Cart Icon"/>
+            <Image src={ SHOPPING_CART } alt="Shopping Cart Icon"/>
           </ButtonCart>
         </WrapperCartCurrency>
       </Head>

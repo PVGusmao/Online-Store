@@ -14,7 +14,14 @@ class CommerceProvider extends React.Component {
       categorySelected: 'all',
       products: [],
       showModal: false,
+      cart: [],
     }
+  }
+
+  handleAddCart = (card) => {
+    this.setState((prevState) => ({
+      cart: [...prevState.cart, card],
+    }));
   }
 
   handleModal = () => {
@@ -56,6 +63,7 @@ class CommerceProvider extends React.Component {
             handleChangeCategory: this.handleChangeCategory,
             handleChangeCurrency: this.handleChangeCurrency,
             handleModal: this.handleModal,
+            handleAddCart: this.handleAddCart,
           } }
         >
           {children}

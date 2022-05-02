@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styledComponents from 'styled-components';
+import styledComponents, { css } from 'styled-components';
 import CommerceContext from '../context/CommerceContext';
-import { css } from 'styled-components';
+import swal from 'sweetalert';
 
 const Wrapper = styledComponents.section`
   align-items: center;
@@ -29,6 +29,10 @@ const ImageOptionsItem = styledComponents.section`
       background-size: cover;
     `
   }} 
+`;
+
+const WrapperImageDescription = styledComponents.section`
+  display: flex;
 `;
 
 const ImageSelected = styledComponents.section`
@@ -177,15 +181,21 @@ class DetailCard extends React.Component {
     ))
     if (target.id === 'color') {
       target.classList.add('selected-attribute-color')
-    } else {
+      console.log(target);
+  } else {
       target.classList.add('selected-attribute');
-    }
+      console.log(target);
+  }
+  }
+
+  handleClick = ({ target }) => {
+    console.log(target);
   }
 
   render() {
     const { clickedImage } = this.state;
     const { actualCurrency } = this.context;
-    const { details: { attributes, prices, name, inStock,
+    const { details: { attributes, prices, name,
       gallery, description, brand } } = this.props;
 
     return (
@@ -203,51 +213,54 @@ class DetailCard extends React.Component {
             ))
           }
         </ImageOptions>
-        <ImageSelected
-          id={ gallery && gallery[0] }
-          name={ clickedImage }
-        />
-        <Description>
-          <Name>{ name }</Name>
-          <Brand>{ brand }</Brand>
-          {
-            attributes && attributes.map((element, ind) => (
-              <AttributesWrapper key={ ind }>
-                <AttributeTitle>{ element.name.toUpperCase() }: </AttributeTitle>
-                  <AttributeList>
-                    {
-                      element.items.map((items, index) => (
-                        <AttributeItems
-                          style={{
-                            backgroundColor: element.name.toLowerCase() === 'color' && items.value
-                          }}
-                          className="attribute-item"
-                          key={ index }
-                          id={ element.id.toLowerCase() }
-                          onClick={ this.handleAttributes}
-                        >
-                          { element.name.toLowerCase() === 'color' ? '' : items.value }
-                        </AttributeItems>
-                      ))
-                    }
-                  </AttributeList>
-              </AttributesWrapper>
-            ))
-          }
-          <PriceWrapper>
-            <PriceTitle>PRICE: </PriceTitle>
-            <PriceValue>
-              {
-                prices && `${prices.find((element) => element.currency.label === actualCurrency).currency.symbol}
-                  ${prices.find((element) => element.currency.label === actualCurrency).amount}`
-              }
-            </PriceValue>
-          </PriceWrapper>
-          <ButtomAddToCart>
-            ADD TO CART
-          </ButtomAddToCart>
-          <DetailsAbout dangerouslySetInnerHTML={{ __html: description }} />
-        </Description>
+        <WrapperImageDescription className="HTMLCard">
+          <ImageSelected
+            id={ gallery && gallery[0] }
+            name={ clickedImage }
+          />
+          <Description>
+            <Name>{ name }</Name>
+            <Brand>{ brand }</Brand>
+            {
+              attributes && attributes.map((element, ind) => (
+                <AttributesWrapper key={ ind }>
+                  <AttributeTitle>{ element.name.toUpperCase() }: </AttributeTitle>
+                    <AttributeList>
+                      {
+                        element.items.map((items, index) => (
+                          <AttributeItems
+                            style={{
+                              backgroundColor: element.name.toLowerCase() === 'color' && items.value
+                            }}
+                            className="attribute-item"
+                            key={ index }
+                            name={ items.value }
+                            id={ element.id.toLowerCase().split(' ')[element.id.toLowerCase().split(' ').length-1] }
+                            onClick={ this.handleAttributes}
+                          >
+                            { element.name.toLowerCase() === 'color' ? '' : items.value }
+                          </AttributeItems>
+                        ))
+                      }
+                    </AttributeList>
+                </AttributesWrapper>
+              ))
+            }
+            <PriceWrapper>
+              <PriceTitle>PRICE: </PriceTitle>
+              <PriceValue>
+                {
+                  prices && `${prices.find((element) => element.currency.label === actualCurrency).currency.symbol}
+                    ${prices.find((element) => element.currency.label === actualCurrency).amount}`
+                }
+              </PriceValue>
+            </PriceWrapper>
+            <ButtomAddToCart onClick={ this.handleClick }>
+              ADD TO CART
+            </ButtomAddToCart>
+            <DetailsAbout dangerouslySetInnerHTML={{ __html: description }} />
+          </Description>
+        </WrapperImageDescription>
       </Wrapper>
     );
   }
