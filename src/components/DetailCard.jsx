@@ -200,7 +200,6 @@ class DetailCard extends React.Component {
   }
 
   handleClick = () => {
-    console.log(this.props);
     const { details: { brand, gallery, name, prices, attributes } } = this.props;
     const { selectedAttribute } = this.state;
     const { handleAddCart, cart } = this.context;
@@ -215,7 +214,9 @@ class DetailCard extends React.Component {
       quantity: 1,
     }
 
-    cart.every((element) => JSON.stringify(element.selectedAttribute) !== JSON.stringify(selectedAttribute)) && handleAddCart(objCart); 
+    cart.every((element) => (
+      JSON.stringify(element.selectedAttribute) !== JSON.stringify(selectedAttribute))
+    ) && handleAddCart(objCart); 
   }
 
   render() {

@@ -52,6 +52,7 @@ const WrapperCartCurrency = styled.section`
 const CurrencySelect = styled.select`
   -moz-appearance: none;
   -ms-appearance: none;
+  background-color: white;
   border:none;
   height: 30px;
   width: auto;

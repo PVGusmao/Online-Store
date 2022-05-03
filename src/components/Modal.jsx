@@ -181,6 +181,7 @@ const ModalFooter = styledComponents.footer`
   align-items: center;
   display: flex;
   justify-content: space-between;
+  padding-top: 15px;
 `;
 
 const SectionTitle = styledComponents.h3`
@@ -198,7 +199,7 @@ const SectionTitle = styledComponents.h3`
 
 class Modal extends React.Component {
   render() {
-    const { cart, actualCurrency, currency } = this.context;
+    const { cart, actualCurrency } = this.context;
     return (
       <ModalWrapper>
         <ModalHeader>
@@ -267,10 +268,18 @@ class Modal extends React.Component {
             Total
           </SectionTitle>
           <SectionTitle>
-            { `${currency.find((element) => element.label === actualCurrency).symbol}
-                ${cart.map((element) => element.prices
-                .find((item) => item.currency.label === actualCurrency))
-                .reduce((acc, curr) => acc.amount + curr.amount).toFixed(2)}`
+            { 
+              cart.length > 0 && 
+              `${cart.map((element) => element.prices
+                .find((item) => item.currency.label === actualCurrency))[0].currency.symbol}
+              ${(cart.map((element) => element.prices
+                  .find((item) => item.currency.label === actualCurrency)).length === 1
+                ? (cart.map((element) => element.prices
+                  .find((item) => item.currency.label === actualCurrency))[0].amount)
+                : (cart.map((element) => element.prices
+                  .find((item) => item.currency.label === actualCurrency))
+                  .reduce((acc, curr) => acc.amount + curr.amount)).toFixed(2)
+                )}` 
             }
           </SectionTitle>
         </ModalFooter>
