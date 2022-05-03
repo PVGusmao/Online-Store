@@ -4,13 +4,9 @@
   padding: 0;
 }
 
-.selected {
-  border: 1px solid black !important;
-}
-
 .selected-attribute {
   background-color: black !important;
-  color: white;
+  color: white !important;
 }
 
 .selected-attribute-color {

@@ -201,7 +201,7 @@ class DetailCard extends React.Component {
 
   handleClick = () => {
     console.log(this.props);
-    const { details: { brand, gallery, name, prices } } = this.props;
+    const { details: { brand, gallery, name, prices, attributes } } = this.props;
     const { selectedAttribute } = this.state;
     const { handleAddCart, cart } = this.context;
 
@@ -210,6 +210,7 @@ class DetailCard extends React.Component {
       name,
       prices,
       selectedAttribute,
+      attributes,
       gallery: gallery[0],
       quantity: 1,
     }
