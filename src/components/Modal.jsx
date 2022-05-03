@@ -45,7 +45,7 @@ const SectionTitle = styledComponents.h3`
 
 class Modal extends React.Component {
   render() {
-    const { cart, actualCurrency } = this.context;
+    const { cart, actualCurrency, total, currency } = this.context;
     return (
       <ModalWrapper>
         <ModalHeader>
@@ -54,7 +54,11 @@ class Modal extends React.Component {
         <AllCardWrapper>
           {
             cart.map((element, index) => (
-              <ShoppingCard key={ index } element={ element } />
+              <ShoppingCard
+                key={ index }
+                element={ element }
+                handleTotal={ this.handleTotal }
+              />
             ))
           }
         </AllCardWrapper>
@@ -64,17 +68,11 @@ class Modal extends React.Component {
           </SectionTitle>
           <SectionTitle>
             { 
-              cart.length > 0 && 
-              `${cart.map((element) => element.prices
-                .find((item) => item.currency.label === actualCurrency))[0].currency.symbol}
-              ${(cart.map((element) => element.prices
-                  .find((item) => item.currency.label === actualCurrency)).length === 1
-                ? (cart.map((element) => element.prices
-                  .find((item) => item.currency.label === actualCurrency))[0].amount)
-                : (cart.map((element) => element.prices
-                  .find((item) => item.currency.label === actualCurrency))
-                  .reduce((acc, curr) => acc.amount + curr.amount)).toFixed(2)
-                )}` 
+              total.length === 0 ? 0
+              : `${currency.find((element) => element.label === actualCurrency).symbol} 
+                ${Object.values(total).length
+                  && Object.values(total)
+                  .reduce((acc, curr) => +acc + +curr).toFixed(2)}`
             }
           </SectionTitle>
         </ModalFooter>

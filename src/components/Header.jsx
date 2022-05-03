@@ -62,9 +62,14 @@ const CurrencyOptions = styled.option`
   text-size: 20px;
 `;
 
-const Image = styled.img`
+const ImageCart = styled.img`
   cursor: pointer;
   width: 32px;
+`;
+
+const ImageBack = styled.img`
+  cursor: pointer;
+  width: 48px;
 `;
 
 const ButtonCart = styled.button`
@@ -106,7 +111,7 @@ class Header extends React.Component {
           }
         </Nav>
         <Link to="/">
-          <Image src={ BACK_LINK } alt="Back Icon"/>
+          <ImageBack src={ BACK_LINK } alt="Back Icon"/>
         </Link>
         <WrapperCartCurrency>
           <CurrencySelect
@@ -125,7 +130,7 @@ class Header extends React.Component {
             }
           </CurrencySelect>
           <ButtonCart onClick={ handleModal }>
-            <Image src={ SHOPPING_CART } alt="Shopping Cart Icon"/>
+            <ImageCart src={ SHOPPING_CART } alt="Shopping Cart Icon"/>
           </ButtonCart>
         </WrapperCartCurrency>
       </Head>

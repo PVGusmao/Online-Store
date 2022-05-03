@@ -168,15 +168,27 @@ class ShoppingCard extends React.Component {
   }
 
   handleQuantity = ({ target }) => {
+    const { handleTotal, actualCurrency } = this.context;
+    const { element: { prices } } = this.props;
+    const { quantity } = this.state;
+
     if (target.classList.contains('plus')) {
       this.setState((prevState) => ({
         quantity: prevState.quantity + 1,
-      }))
+      }), () => {
+        let actualValue = prices
+        .find((item) => item.currency.label === actualCurrency).amount * (quantity + 1);
+        handleTotal(target, actualValue.toFixed(2));
+      })
     } else {
       this.setState((prevState) => ({
         quantity: prevState.quantity === 1 ? 1 : prevState.quantity - 1,
-      }))
-    }
+      }), () => {
+        let actualValue = prices
+          .find((item) => item.currency.label === actualCurrency).amount * (quantity -1);
+        handleTotal(target, actualValue.toFixed(2));
+      })
+    }    
   }
 
   render() {
@@ -189,7 +201,8 @@ class ShoppingCard extends React.Component {
                   <Name>{ element.name }</Name>
                   <Price className="price-tag">
                     {
-                      `${element.prices.find((item) => item.currency.label === actualCurrency).currency.symbol} ${(element.prices.find((item) => item.currency.label === actualCurrency).amount * quantity).toFixed(2)}`
+                      `${element.prices.find((item) => item.currency.label === actualCurrency).currency.symbol}
+                        ${(element.prices.find((item) => item.currency.label === actualCurrency).amount * quantity).toFixed(2)}`
                     }
                   </Price>
                   <div>
@@ -249,6 +262,7 @@ class ShoppingCard extends React.Component {
 
 ShoppingCard.propTypes = {
   element: PropTypes.instanceOf(PropTypes.object),
+  prices: PropTypes.instanceOf(PropTypes.object),
 }.isRequired;
 
 
