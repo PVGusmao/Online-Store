@@ -5,6 +5,39 @@ import Header from '../components/Header';
 import Modal from '../components/Modal';
 import CommerceContext from '../context/CommerceContext';
 
+class Home extends React.Component {
+  render() {
+    const { showModal, handleModal, categorySelected, products } = this.context;
+    return (
+      <ExternalWrapper>
+        <Header />
+        {
+          showModal && <Modal showModal={ showModal } />
+        }
+        {
+          showModal && (<Shadow onClick={ handleModal } />)
+        }
+        <InternalWrapper>
+          <ContainerTitle>
+            <h1>{ categorySelected.toUpperCase() }</h1>
+          </ContainerTitle>
+          <CardSection>
+            {
+              products.length > 0 && products.filter((element) => element.name === categorySelected)[0].products
+              .map((item, index) => (
+                <Cards
+                  key={ index }
+                  item={ item }
+                />
+              ))
+            }
+          </CardSection>
+        </InternalWrapper>
+      </ExternalWrapper>
+    );
+  }
+}
+
 const ExternalWrapper = styledComponents.section`
   height: 100%;
   position: relative;
@@ -38,38 +71,6 @@ const Shadow = styledComponents.div`
   z-index: 1;
 `;
 
-class Home extends React.Component {
-  render() {
-    const { showModal, handleModal, categorySelected, products } = this.context;
-    return (
-      <ExternalWrapper>
-        <Header />
-        {
-          showModal && <Modal showModal={ showModal } />
-        }
-        {
-          showModal && (<Shadow onClick={ handleModal } />)
-        }
-        <InternalWrapper>
-          <ContainerTitle>
-            <h1>{ categorySelected.toUpperCase() }</h1>
-          </ContainerTitle>
-          <CardSection>
-            {
-              products.length > 0 && products.filter((element) => element.name === categorySelected)[0].products
-              .map((item, index) => (
-                <Cards
-                  key={ index }
-                  item={ item }
-                />
-              ))
-            }
-          </CardSection>
-        </InternalWrapper>
-      </ExternalWrapper>
-    );
-  }
-}
 
 Home.contextType = CommerceContext;
 export default Home;

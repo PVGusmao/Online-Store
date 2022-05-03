@@ -5,6 +5,61 @@ import CommerceContext from '../context/CommerceContext';
 import BACK_LINK from '../images/back.svg';
 import SHOPPING_CART from '../images/shoppingCart.svg';
 
+class Header extends React.Component {
+  componentDidMount() {
+    const { handleCompleteAPI } = this.context;
+    handleCompleteAPI();
+  }
+
+  handleBack = () => {
+
+  }
+
+  render() {
+    const { data, currency, handleModal, categorySelected,
+      handleChangeCategory, handleChangeCurrency } = this.context;
+    return (
+      <Head>
+        <Nav>
+          {
+            data.length !== 0 && data.data.categories.map((element, index) => (
+              <Button style={ {
+                color: categorySelected === element.name  ? '#5ece7b' : 'black',
+                borderBottom: categorySelected === element.name ? '2px solid #5ece7b' : '0px solid #5ece7b',
+              } } onClick={ (e) => handleChangeCategory(e) } name={ element.name } key={ index }>
+                { element.name.toUpperCase() }
+              </Button>
+            ))
+          }
+        </Nav>
+        <Link to="/">
+          <ImageBack src={ BACK_LINK } alt="Back Icon"/>
+        </Link>
+        <WrapperCartCurrency>
+          <CurrencySelect
+            onChange={ (e) => handleChangeCurrency(e) }
+            name="currency"
+            id="currency">
+            {
+              currency.map((element, index) => (
+                <CurrencyOptions
+                  value={ element.label }
+                  key={ index }
+                >
+                  { `${ element.symbol } ${ element.label }` }
+                </CurrencyOptions>
+              ))
+            }
+          </CurrencySelect>
+          <ButtonCart onClick={ handleModal }>
+            <ImageCart src={ SHOPPING_CART } alt="Shopping Cart Icon"/>
+          </ButtonCart>
+        </WrapperCartCurrency>
+      </Head>
+    );
+  }
+}
+
 const Head = styled.header`
   align-items: center;
   display: flex;
@@ -83,60 +138,6 @@ const ButtonCart = styled.button`
   padding: 0;
 `;
 
-class Header extends React.Component {
-  componentDidMount() {
-    const { handleCompleteAPI } = this.context;
-    handleCompleteAPI();
-  }
-
-  handleBack = () => {
-
-  }
-
-  render() {
-    const { data, currency, handleModal, categorySelected,
-      handleChangeCategory, handleChangeCurrency } = this.context;
-    return (
-      <Head>
-        <Nav>
-          {
-            data.length !== 0 && data.data.categories.map((element, index) => (
-              <Button style={ {
-                color: categorySelected === element.name  ? '#5ece7b' : 'black',
-                borderBottom: categorySelected === element.name ? '2px solid #5ece7b' : '0px solid #5ece7b',
-              } } onClick={ (e) => handleChangeCategory(e) } name={ element.name } key={ index }>
-                { element.name.toUpperCase() }
-              </Button>
-            ))
-          }
-        </Nav>
-        <Link to="/">
-          <ImageBack src={ BACK_LINK } alt="Back Icon"/>
-        </Link>
-        <WrapperCartCurrency>
-          <CurrencySelect
-            onChange={ (e) => handleChangeCurrency(e) }
-            name="currency"
-            id="currency">
-            {
-              currency.map((element, index) => (
-                <CurrencyOptions
-                  value={ element.label }
-                  key={ index }
-                >
-                  { `${ element.symbol } ${ element.label }` }
-                </CurrencyOptions>
-              ))
-            }
-          </CurrencySelect>
-          <ButtonCart onClick={ handleModal }>
-            <ImageCart src={ SHOPPING_CART } alt="Shopping Cart Icon"/>
-          </ButtonCart>
-        </WrapperCartCurrency>
-      </Head>
-    );
-  }
-}
 
 Header.contextType = CommerceContext;
 export default Header;

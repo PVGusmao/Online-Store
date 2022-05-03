@@ -5,14 +5,6 @@ import Modal from '../components/Modal';
 import styledComponents from 'styled-components';
 import CommerceContext from '../context/CommerceContext';
 
-const Shadow = styledComponents.div`
-  background-color: rgba(0, 0, 0, 0.3);
-  height: 100%;
-  position: absolute;
-  width: 100%;
-  z-index: 1;
-`;
-
 class ProductDetail extends React.Component {
   constructor() {
     super();
@@ -46,6 +38,14 @@ class ProductDetail extends React.Component {
     );
   }
 }
+
+const Shadow = styledComponents.div`
+  background-color: rgba(0, 0, 0, 0.3);
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+`;
 
 ProductDetail.contextType = CommerceContext;
 export default ProductDetail;

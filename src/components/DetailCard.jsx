@@ -4,6 +4,148 @@ import styledComponents, { css } from 'styled-components';
 import CommerceContext from '../context/CommerceContext';
 import swal from 'sweetalert';
 
+class DetailCard extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      clickedImage: '',
+      selectedAttribute: {},
+      counter: 0,
+    }
+  }
+
+  handleImage = (element) => {
+    this.setState({
+      clickedImage: element,
+    })
+  }
+
+  handleAttributes = ({ target }) => {
+    const attributesOptions = target.closest('div').childNodes;
+    attributesOptions.forEach((element) => (
+      element.classList.remove('selected-attribute', 'selected-attribute-color')
+    ))
+    if (target.id === 'color') {
+      target.classList.add('selected-attribute-color')
+      this.setState((prevState) => ({
+        selectedAttribute: {
+          ...prevState.selectedAttribute,
+          [target.id]: target.name,
+        } 
+      }))
+    } else {
+      target.classList.add('selected-attribute');
+      this.setState((prevState) => ({
+        selectedAttribute: {
+          ...prevState.selectedAttribute,
+          [target.id]: target.name,
+        } 
+      }))
+    }
+  }
+
+  handleClick = () => {
+    const { details: { brand, gallery, name, prices, attributes } } = this.props;
+    const { selectedAttribute } = this.state;
+    const { handleAddCart, cart, counter, handleCounter } = this.context;
+
+    handleCounter();
+
+    this.setState((prev) => ({ counter: prev.counter + 1 }))
+
+    const objCart = {
+      brand,
+      name,
+      prices,
+      selectedAttribute,
+      attributes,
+      gallery: gallery[0],
+      quantity: 1,
+      id: counter,
+    }
+
+    cart.every((element) => (
+      JSON.stringify(element.selectedAttribute) !== JSON.stringify(selectedAttribute))
+    ) && handleAddCart(objCart); 
+  }
+
+  render() {
+    const { clickedImage } = this.state;
+    const { actualCurrency } = this.context;
+    const { details: { attributes, prices, name,
+      gallery, description, brand } } = this.props;
+
+    return (
+      <Wrapper>
+        <ImageOptions>
+          {
+            gallery && gallery.map((element, index) => (
+              <ImageOptionsItem
+                className="images"
+                onClick={() => this.handleImage(element) }
+                id={ element }
+                key={ index }
+                name={ element }
+              />
+            ))
+          }
+        </ImageOptions>
+        <WrapperImageDescription>
+          <ImageSelected
+            id={ gallery && gallery[0] }
+            name={ clickedImage }
+          />
+          <Description>
+            <Name>{ name }</Name>
+            <Brand>{ brand }</Brand>
+            <div className="get-this-html-on-click">
+              {
+                attributes && attributes.map((element, ind) => (
+                  <AttributesWrapper key={ ind }>
+                    <AttributeTitle>{ element.name.toUpperCase() }: </AttributeTitle>
+                      <AttributeList>
+                        {
+                          element.items.map((items, index) => (
+                            <AttributeItems
+                              style={{
+                                backgroundColor: element.name.toLowerCase() === 'color' && items.value
+                              }}
+                              key={ index }
+                              name={ items.value }
+                              id={ element.id.toLowerCase().split(' ')[element.id.toLowerCase().split(' ').length-1] }
+                              onClick={ this.handleAttributes}
+                              >
+                              { element.name.toLowerCase() === 'color' ? '' : items.value }
+                            </AttributeItems>
+                          ))
+                        }
+                      </AttributeList>
+                  </AttributesWrapper>
+                ))
+              }
+            </div>
+            <PriceWrapper>
+              <PriceTitle>PRICE: </PriceTitle>
+              <PriceValue>
+                {
+                  prices && `${prices.find((element) => element.currency.label === actualCurrency).currency.symbol}
+                    ${prices.find((element) => element.currency.label === actualCurrency).amount}`
+                }
+              </PriceValue>
+            </PriceWrapper>
+            <ButtomAddToCart onClick={ this.handleClick }>
+              ADD TO CART
+            </ButtomAddToCart>
+            <DetailsAbout dangerouslySetInnerHTML={{ __html: description }} />
+          </Description>
+        </WrapperImageDescription>
+      </Wrapper>
+    );
+  }
+}
+
+
 const Wrapper = styledComponents.section`
   align-items: center;
   display: flex;
@@ -158,147 +300,6 @@ const DetailsAbout = styledComponents.p`
   overflow-y: auto;
   width: 292px;
 `;
-
-class DetailCard extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      clickedImage: '',
-      selectedAttribute: {},
-      counter: 0,
-    }
-  }
-
-  handleImage = (element) => {
-    this.setState({
-      clickedImage: element,
-    })
-  }
-
-  handleAttributes = ({ target }) => {
-    const attributesOptions = target.closest('div').childNodes;
-    attributesOptions.forEach((element) => (
-      element.classList.remove('selected-attribute', 'selected-attribute-color')
-    ))
-    if (target.id === 'color') {
-      target.classList.add('selected-attribute-color')
-      this.setState((prevState) => ({
-        selectedAttribute: {
-          ...prevState.selectedAttribute,
-          [target.id]: target.name,
-        } 
-      }))
-    } else {
-      target.classList.add('selected-attribute');
-      this.setState((prevState) => ({
-        selectedAttribute: {
-          ...prevState.selectedAttribute,
-          [target.id]: target.name,
-        } 
-      }))
-    }
-  }
-
-  handleClick = () => {
-    const { details: { brand, gallery, name, prices, attributes } } = this.props;
-    const { selectedAttribute } = this.state;
-    const { handleAddCart, cart, counter, handleCounter } = this.context;
-
-    handleCounter();
-
-    this.setState((prev) => ({ counter: prev.counter + 1 }))
-
-    const objCart = {
-      brand,
-      name,
-      prices,
-      selectedAttribute,
-      attributes,
-      gallery: gallery[0],
-      quantity: 1,
-      id: counter,
-    }
-
-    cart.every((element) => (
-      JSON.stringify(element.selectedAttribute) !== JSON.stringify(selectedAttribute))
-    ) && handleAddCart(objCart); 
-  }
-
-  render() {
-    const { clickedImage } = this.state;
-    const { actualCurrency } = this.context;
-    const { details: { attributes, prices, name,
-      gallery, description, brand } } = this.props;
-
-    return (
-      <Wrapper>
-        <ImageOptions>
-          {
-            gallery && gallery.map((element, index) => (
-              <ImageOptionsItem
-                className="images"
-                onClick={() => this.handleImage(element) }
-                id={ element }
-                key={ index }
-                name={ element }
-              />
-            ))
-          }
-        </ImageOptions>
-        <WrapperImageDescription>
-          <ImageSelected
-            id={ gallery && gallery[0] }
-            name={ clickedImage }
-          />
-          <Description>
-            <Name>{ name }</Name>
-            <Brand>{ brand }</Brand>
-            <div className="get-this-html-on-click">
-              {
-                attributes && attributes.map((element, ind) => (
-                  <AttributesWrapper key={ ind }>
-                    <AttributeTitle>{ element.name.toUpperCase() }: </AttributeTitle>
-                      <AttributeList>
-                        {
-                          element.items.map((items, index) => (
-                            <AttributeItems
-                              style={{
-                                backgroundColor: element.name.toLowerCase() === 'color' && items.value
-                              }}
-                              key={ index }
-                              name={ items.value }
-                              id={ element.id.toLowerCase().split(' ')[element.id.toLowerCase().split(' ').length-1] }
-                              onClick={ this.handleAttributes}
-                              >
-                              { element.name.toLowerCase() === 'color' ? '' : items.value }
-                            </AttributeItems>
-                          ))
-                        }
-                      </AttributeList>
-                  </AttributesWrapper>
-                ))
-              }
-            </div>
-            <PriceWrapper>
-              <PriceTitle>PRICE: </PriceTitle>
-              <PriceValue>
-                {
-                  prices && `${prices.find((element) => element.currency.label === actualCurrency).currency.symbol}
-                    ${prices.find((element) => element.currency.label === actualCurrency).amount}`
-                }
-              </PriceValue>
-            </PriceWrapper>
-            <ButtomAddToCart onClick={ this.handleClick }>
-              ADD TO CART
-            </ButtomAddToCart>
-            <DetailsAbout dangerouslySetInnerHTML={{ __html: description }} />
-          </Description>
-        </WrapperImageDescription>
-      </Wrapper>
-    );
-  }
-}
 
 DetailCard.propTypes = {
   attributes: PropTypes.arrayOf(PropTypes.object),

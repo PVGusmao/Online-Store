@@ -3,6 +3,44 @@ import styledComponents from "styled-components";
 import CommerceContext from '../context/CommerceContext';
 import ShoppingCard from "./ShoppingCard";
 
+class Modal extends React.Component {
+  render() {
+    const { cart, actualCurrency, total, currency } = this.context;
+    return (
+      <ModalWrapper>
+        <ModalHeader>
+          <SectionTitle>My Bag, { cart.length } items.</SectionTitle>
+        </ModalHeader>
+        <AllCardWrapper>
+          {
+            cart.map((element, index) => (
+              <ShoppingCard
+                key={ index }
+                element={ element }
+                handleTotal={ this.handleTotal }
+              />
+            ))
+          }
+        </AllCardWrapper>
+        <ModalFooter>
+          <SectionTitle>
+            Total
+          </SectionTitle>
+          <SectionTitle>
+            { 
+              total.length === 0 ? 0
+              : `${currency.find((element) => element.label === actualCurrency).symbol} 
+                ${Object.values(total).length
+                  && (Object.values(total)
+                  .reduce((acc, curr) => +acc + +curr))}`
+            }
+          </SectionTitle>
+        </ModalFooter>
+      </ModalWrapper>
+    )
+  }
+}
+
 const ModalWrapper = styledComponents.div`
   background-color: white;
   display: flex;
@@ -43,43 +81,6 @@ const SectionTitle = styledComponents.h3`
   text-align: left;
 `;
 
-class Modal extends React.Component {
-  render() {
-    const { cart, actualCurrency, total, currency } = this.context;
-    return (
-      <ModalWrapper>
-        <ModalHeader>
-          <SectionTitle>My Bag, { cart.length } items.</SectionTitle>
-        </ModalHeader>
-        <AllCardWrapper>
-          {
-            cart.map((element, index) => (
-              <ShoppingCard
-                key={ index }
-                element={ element }
-                handleTotal={ this.handleTotal }
-              />
-            ))
-          }
-        </AllCardWrapper>
-        <ModalFooter>
-          <SectionTitle>
-            Total
-          </SectionTitle>
-          <SectionTitle>
-            { 
-              total.length === 0 ? 0
-              : `${currency.find((element) => element.label === actualCurrency).symbol} 
-                ${Object.values(total).length
-                  && (Object.values(total)
-                  .reduce((acc, curr) => +acc + +curr))}`
-            }
-          </SectionTitle>
-        </ModalFooter>
-      </ModalWrapper>
-    )
-  }
-}
 
 Modal.contextType = CommerceContext;
 export default Modal;

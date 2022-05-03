@@ -4,6 +4,35 @@ import styledComponents from 'styled-components';
 import CommerceContext from '../context/CommerceContext';
 import { Link } from 'react-router-dom';
 
+class Cards extends React.Component {
+  render() {
+    const { item, item: { name, gallery, prices, inStock, id } } = this.props;
+    const { actualCurrency } = this.context;
+    return (
+      <Card>
+        <Link to={ {
+          pathname: inStock ? `/productdetail/${id}` : '/',
+          state: item,
+        } }>
+          <Image style={ { opacity: !inStock ? 0.300 : 1 } } src={ gallery[0] } alt={ name } />
+        </Link>
+        <Name style={ { opacity: !inStock ? 0.300 : 1 } }>
+          { name }
+        </Name>
+        <Price style={ { opacity: !inStock ? 0.300 : 1 } }>
+          {
+            `${prices.find((element) => element.currency.label === actualCurrency).currency.symbol}
+            ${prices.find((element) => element.currency.label === actualCurrency).amount}`
+          }
+        </Price>
+          {
+            !inStock && <OutOfStock>OUT OF STOCK</OutOfStock>
+          }
+      </Card>
+    );
+  }
+}
+
 const Card = styledComponents.section.attrs(() => ({ tabIndex: 0 }))`
   border: 1px solid rgba(0, 0, 0, 0.03);
   bottom: 0;
@@ -47,35 +76,6 @@ const OutOfStock = styledComponents.h2`
   top: 25%;
   z-index: 1;
 `;
-
-class Cards extends React.Component {
-  render() {
-    const { item, item: { name, gallery, prices, inStock, id } } = this.props;
-    const { actualCurrency } = this.context;
-    return (
-      <Card>
-        <Link to={ {
-          pathname: inStock ? `/productdetail/${id}` : '/',
-          state: item,
-        } }>
-          <Image style={ { opacity: !inStock ? 0.300 : 1 } } src={ gallery[0] } alt={ name } />
-        </Link>
-        <Name style={ { opacity: !inStock ? 0.300 : 1 } }>
-          { name }
-        </Name>
-        <Price style={ { opacity: !inStock ? 0.300 : 1 } }>
-          {
-            `${prices.find((element) => element.currency.label === actualCurrency).currency.symbol}
-            ${prices.find((element) => element.currency.label === actualCurrency).amount}`
-          }
-        </Price>
-          {
-            !inStock && <OutOfStock>OUT OF STOCK</OutOfStock>
-          }
-      </Card>
-    );
-  }
-}
 
 Cards.propTypes = {
   name: PropTypes.string,
