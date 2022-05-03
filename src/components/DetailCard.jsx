@@ -166,6 +166,7 @@ class DetailCard extends React.Component {
     this.state = {
       clickedImage: '',
       selectedAttribute: {},
+      counter: 0,
     }
   }
 
@@ -202,7 +203,11 @@ class DetailCard extends React.Component {
   handleClick = () => {
     const { details: { brand, gallery, name, prices, attributes } } = this.props;
     const { selectedAttribute } = this.state;
-    const { handleAddCart, cart } = this.context;
+    const { handleAddCart, cart, counter, handleCounter } = this.context;
+
+    handleCounter();
+
+    this.setState((prev) => ({ counter: prev.counter + 1 }))
 
     const objCart = {
       brand,
@@ -212,6 +217,7 @@ class DetailCard extends React.Component {
       attributes,
       gallery: gallery[0],
       quantity: 1,
+      id: counter,
     }
 
     cart.every((element) => (

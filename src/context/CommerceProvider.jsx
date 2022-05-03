@@ -15,7 +15,14 @@ class CommerceProvider extends React.Component {
       products: [],
       showModal: false,
       cart: [],
+      counter: 0,
     }
+  }
+
+  handleCounter = () => {
+    this.setState((prevState) => ({
+      counter: prevState.counter + 1,
+    }))
   }
 
   handleAddCart = (card) => {
@@ -64,6 +71,8 @@ class CommerceProvider extends React.Component {
             handleChangeCurrency: this.handleChangeCurrency,
             handleModal: this.handleModal,
             handleAddCart: this.handleAddCart,
+            handleCounter: this.handleCounter,
+            handleQuantity: this.handleQuantity,
           } }
         >
           {children}
