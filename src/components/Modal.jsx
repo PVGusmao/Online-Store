@@ -25,6 +25,7 @@ const AllCardWrapper = styledComponents.main`
 const CardWrapper = styledComponents.div`
   align-items: center;
   display: flex;
+  justify-content: space-between;
 `;
 
 const ContentDetails = styledComponents.section`
@@ -166,7 +167,7 @@ const Minus = styledComponents.div`
 const Image = styledComponents.div`
   height: 190px;
   margin-left: 5px;
-  width: 100%;
+  width: 120px;
 
   ${(props) => {
     return css`
