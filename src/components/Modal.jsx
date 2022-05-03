@@ -71,8 +71,8 @@ class Modal extends React.Component {
               total.length === 0 ? 0
               : `${currency.find((element) => element.label === actualCurrency).symbol} 
                 ${Object.values(total).length
-                  && Object.values(total)
-                  .reduce((acc, curr) => +acc + +curr).toFixed(2)}`
+                  && (Object.values(total)
+                  .reduce((acc, curr) => +acc + +curr))}`
             }
           </SectionTitle>
         </ModalFooter>

@@ -185,7 +185,8 @@ class ShoppingCard extends React.Component {
         quantity: prevState.quantity === 1 ? 1 : prevState.quantity - 1,
       }), () => {
         let actualValue = prices
-          .find((item) => item.currency.label === actualCurrency).amount * (quantity -1);
+          .find((item) => item.currency.label === actualCurrency).amount
+            * (quantity === 1 ? 1 : quantity -1);
         handleTotal(target, actualValue.toFixed(2));
       })
     }    
