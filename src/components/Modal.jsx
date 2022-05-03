@@ -28,10 +28,10 @@ class Modal extends React.Component {
           </SectionTitle>
           <SectionTitle>
             { 
-              total.length === 0 ? 0
+              total.length === 0
+              ? 0
               : `${currency.find((element) => element.label === actualCurrency).symbol} 
-                ${Object.values(total).length
-                  && (Object.values(total)
+                ${Object.values(total).lengt && (Object.values(total)
                   .reduce((acc, curr) => +acc + +curr))}`
             }
           </SectionTitle>

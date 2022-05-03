@@ -22,7 +22,8 @@ class ShoppingCard extends React.Component {
         quantity: prevState.quantity + 1,
       }), () => {
         let actualValue = prices
-        .find((item) => item.currency.label === actualCurrency).amount * (quantity + 1);
+          .find((item) => item.currency.label === actualCurrency).amount
+            * (quantity + 1);
         handleTotal(target, actualValue.toFixed(2));
       })
     } else {
@@ -43,65 +44,65 @@ class ShoppingCard extends React.Component {
     const { actualCurrency } = this.context;
     return (
       <CardWrapper>
-                <ContentDetails>
-                  <Name>{ element.name }</Name>
-                  <Price className="price-tag">
-                    {
-                      `${element.prices.find((item) => item.currency.label === actualCurrency).currency.symbol}
-                        ${(element.prices.find((item) => item.currency.label === actualCurrency).amount * quantity).toFixed(2)}`
-                    }
-                  </Price>
-                  <div>
-                    {
-                      element.attributes.map((value, ind) => (
-                        <div key={ ind }>
-                          <AttributeTitle>{ value.name.toUpperCase() }: </AttributeTitle>
-                            <AttributeList>
-                              {
-                                value.items.map((items, index) => (
-                                  <AttributeItems
-                                    style={{
-                                      backgroundColor: value.name.toLowerCase() === 'color' && items.value,
-                                    }}
-                                    className={
-                                      (value.name.toLowerCase() === 'color' && Object.values(element.selectedAttribute).includes(items.value))
-                                      ? 'selected-attribute-color' : 
-                                      ((Object.values(element.selectedAttribute).includes(items.value)) && 'selected-attribute')
-                                    }
-                                    key={ index }
-                                    name={ items.value }
-                                    id={ value.id.toLowerCase().split(' ')[value.id.toLowerCase().split(' ').length - 1] }
-                                    onClick={ this.handleAttributes}
-                                    >
-                                    { value.name.toLowerCase() === 'color' ? '' : items.value }
-                                  </AttributeItems>
-                                ))
-                              }
-                            </AttributeList>
-                        </div>
-                      ))
-                    }
-                  </div>
-                </ContentDetails>
-                <QuantityController>
-                  <Plus
-                    id={ element.id }
-                    onClick={ this.handleQuantity }
-                    className="plus"
-                  >
-                    +
-                  </Plus>
-                    <Quantity>{ quantity }</Quantity>
-                  <Minus
-                    id={ element.id }
-                    onClick={ this.handleQuantity }
-                    className="minus"
-                  >
-                    -
-                  </Minus>
-                </QuantityController>
-                <Image name={ element.gallery } />
-              </CardWrapper>
+        <ContentDetails>
+          <Name>{ element.name }</Name>
+          <Price className="price-tag">
+            {
+              `${element.prices.find((item) => item.currency.label === actualCurrency).currency.symbol}
+                ${(element.prices.find((item) => item.currency.label === actualCurrency).amount * quantity).toFixed(2)}`
+            }
+          </Price>
+          <div>
+            {
+              element.attributes.map((value, ind) => (
+                <div key={ ind }>
+                  <AttributeTitle>{ value.name.toUpperCase() }: </AttributeTitle>
+                    <AttributeList>
+                      {
+                        value.items.map((items, index) => (
+                          <AttributeItems
+                            style={{
+                              backgroundColor: value.name.toLowerCase() === 'color' && items.value,
+                            }}
+                            className={
+                              (value.name.toLowerCase() === 'color' && Object.values(element.selectedAttribute).includes(items.value))
+                              ? 'selected-attribute-color' : 
+                              ((Object.values(element.selectedAttribute).includes(items.value)) && 'selected-attribute')
+                            }
+                            key={ index }
+                            name={ items.value }
+                            id={ value.id.toLowerCase().split(' ')[value.id.toLowerCase().split(' ').length - 1] }
+                            onClick={ this.handleAttributes}
+                            >
+                            { value.name.toLowerCase() === 'color' ? '' : items.value }
+                          </AttributeItems>
+                        ))
+                      }
+                    </AttributeList>
+                </div>
+              ))
+            }
+          </div>
+        </ContentDetails>
+        <QuantityController>
+          <Plus
+            id={ element.id }
+            onClick={ this.handleQuantity }
+            className="plus"
+          >
+            +
+          </Plus>
+            <Quantity>{ quantity }</Quantity>
+          <Minus
+            id={ element.id }
+            onClick={ this.handleQuantity }
+            className="minus"
+          >
+            -
+          </Minus>
+        </QuantityController>
+        <Image name={ element.gallery } />
+      </CardWrapper>
     );
   }
 }
