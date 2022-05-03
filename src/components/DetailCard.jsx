@@ -118,7 +118,7 @@ const PriceValue = styledComponents.p`
   height: 46px;
   line-height: 18px;
   margin-top: 10px;
-  width: 90px;
+  width: 105px;
 `
 
 const ButtomAddToCart = styledComponents.button.attrs(() => ({ tabIndex: 0 }))`
@@ -165,6 +165,7 @@ class DetailCard extends React.Component {
 
     this.state = {
       clickedImage: '',
+      selectedAttribute: {},
     }
   }
 
@@ -181,15 +182,39 @@ class DetailCard extends React.Component {
     ))
     if (target.id === 'color') {
       target.classList.add('selected-attribute-color')
-      console.log(target);
-  } else {
+      this.setState((prevState) => ({
+        selectedAttribute: {
+          ...prevState.selectedAttribute,
+          [target.id]: target.name,
+        } 
+      }))
+    } else {
       target.classList.add('selected-attribute');
-      console.log(target);
-  }
+      this.setState((prevState) => ({
+        selectedAttribute: {
+          ...prevState.selectedAttribute,
+          [target.id]: target.name,
+        } 
+      }))
+    }
   }
 
-  handleClick = ({ target }) => {
-    console.log(target);
+  handleClick = () => {
+    console.log(this.props);
+    const { details: { brand, gallery, name, prices } } = this.props;
+    const { selectedAttribute } = this.state;
+    const { handleAddCart, cart } = this.context;
+
+    const objCart = {
+      brand,
+      name,
+      prices,
+      selectedAttribute,
+      gallery: gallery[0],
+      quantity: 1,
+    }
+
+    cart.every((element) => JSON.stringify(element.selectedAttribute) !== JSON.stringify(selectedAttribute)) && handleAddCart(objCart); 
   }
 
   render() {
@@ -213,7 +238,7 @@ class DetailCard extends React.Component {
             ))
           }
         </ImageOptions>
-        <WrapperImageDescription className="HTMLCard">
+        <WrapperImageDescription>
           <ImageSelected
             id={ gallery && gallery[0] }
             name={ clickedImage }
@@ -221,31 +246,32 @@ class DetailCard extends React.Component {
           <Description>
             <Name>{ name }</Name>
             <Brand>{ brand }</Brand>
-            {
-              attributes && attributes.map((element, ind) => (
-                <AttributesWrapper key={ ind }>
-                  <AttributeTitle>{ element.name.toUpperCase() }: </AttributeTitle>
-                    <AttributeList>
-                      {
-                        element.items.map((items, index) => (
-                          <AttributeItems
-                            style={{
-                              backgroundColor: element.name.toLowerCase() === 'color' && items.value
-                            }}
-                            className="attribute-item"
-                            key={ index }
-                            name={ items.value }
-                            id={ element.id.toLowerCase().split(' ')[element.id.toLowerCase().split(' ').length-1] }
-                            onClick={ this.handleAttributes}
-                          >
-                            { element.name.toLowerCase() === 'color' ? '' : items.value }
-                          </AttributeItems>
-                        ))
-                      }
-                    </AttributeList>
-                </AttributesWrapper>
-              ))
-            }
+            <div className="get-this-html-on-click">
+              {
+                attributes && attributes.map((element, ind) => (
+                  <AttributesWrapper key={ ind }>
+                    <AttributeTitle>{ element.name.toUpperCase() }: </AttributeTitle>
+                      <AttributeList>
+                        {
+                          element.items.map((items, index) => (
+                            <AttributeItems
+                              style={{
+                                backgroundColor: element.name.toLowerCase() === 'color' && items.value
+                              }}
+                              key={ index }
+                              name={ items.value }
+                              id={ element.id.toLowerCase().split(' ')[element.id.toLowerCase().split(' ').length-1] }
+                              onClick={ this.handleAttributes}
+                              >
+                              { element.name.toLowerCase() === 'color' ? '' : items.value }
+                            </AttributeItems>
+                          ))
+                        }
+                      </AttributeList>
+                  </AttributesWrapper>
+                ))
+              }
+            </div>
             <PriceWrapper>
               <PriceTitle>PRICE: </PriceTitle>
               <PriceValue>

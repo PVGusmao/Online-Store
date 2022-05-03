@@ -55,7 +55,7 @@ class Cards extends React.Component {
     return (
       <Card>
         <Link to={ {
-          pathname: `/productdetail/${id}`,
+          pathname: inStock ? `/productdetail/${id}` : '/',
           state: item,
         } }>
           <Image style={ { opacity: !inStock ? 0.300 : 1 } } src={ gallery[0] } alt={ name } />

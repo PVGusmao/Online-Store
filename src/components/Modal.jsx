@@ -1,14 +1,13 @@
 import React from "react";
 import styledComponents from "styled-components";
 import CommerceContext from '../context/CommerceContext';
+import '../assets/modal.css';
 
 const ModalWrapper = styledComponents.div`
-  align-items: center;
   background-color: white;
   display: flex;
   flex-direction: column;
   height: 677px;
-  justify-content: space-between;
   right: 72px;
   padding: 32px 16px;
   position: absolute;
@@ -17,34 +16,46 @@ const ModalWrapper = styledComponents.div`
 `;
 
 const ModalHeader = styledComponents.header`
+
 `;
 
 const ModalContent = styledComponents.main`
 
 `;
 
+const DisplayItems = styledComponents.section`
+
+`
+
 const ModalFooter = styledComponents.footer`
 
 `;
 
 const SectionTitle = styledComponents.h3`
-
+  color: #1D1F22;
+  flex-grow: 0;
+  flex: none;
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 160%;
+  order: 0;
+  text-align: left;
 `;
 
 class Modal extends React.Component {
   render() {
-    const { showModal } = this.props;
+    const { cart } = this.context;
     return (
-      <ModalWrapper>
+      <ModalWrapper className="modal">
         <ModalHeader>
-          <SectionTitle>
-            Header
-          </SectionTitle>
+          <SectionTitle>My Bag, { cart.length } items.</SectionTitle>
         </ModalHeader>
         <ModalContent>
-          <SectionTitle>
-            Content
-          </SectionTitle>
+        <SectionTitle>
+          Content
+        </SectionTitle>
         </ModalContent>
         <ModalFooter>
           <SectionTitle>
