@@ -16,17 +16,22 @@ class CommerceProvider extends React.Component {
       showModal: false,
       cart: [],
       counter: 0,
-      total: {},
+      total: 0,
+      currencyfactor: 1,
+      applyFactor: false,
     }
   }
 
-  handleTotal = (target, actualValue) => {
-    this.setState((prevState) => ({
-      total: {
-        ...prevState.total,
-        [target.id]: actualValue,
-      }
+  handleApplyFactor = () => {
+    this.setState((prev) => ({
+      applyFactor: !prev.applyFactor,
     }))
+  }
+
+  handleTotal = (total) => {
+    this.setState({
+      total,
+    })
   }
 
   handleCounter = () => {
@@ -58,9 +63,13 @@ class CommerceProvider extends React.Component {
   }
 
   handleChangeCurrency = ({ target }) => {
-    this.setState({
+    const { products, applyFactor, actualCurrency, currencyfactor } = this.state;
+    this.setState((prev) => ({
       actualCurrency: target.value,
-    })
+      currencyfactor: (products[0].products[0].prices.find((item) => item.currency.label === target.value).amount) /
+      (products[0].products[0].prices.find((item) => item.currency.label === prev.actualCurrency).amount),
+    }))
+    !applyFactor && this.handleApplyFactor();
   }
 
   handleChangeCategory = ({ target }) => {
@@ -82,8 +91,8 @@ class CommerceProvider extends React.Component {
             handleModal: this.handleModal,
             handleAddCart: this.handleAddCart,
             handleCounter: this.handleCounter,
-            handleQuantity: this.handleQuantity,
             handleTotal: this.handleTotal,
+            handleApplyFactor: this.handleApplyFactor,
           } }
         >
           {children}

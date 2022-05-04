@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import CommerceContext from '../context/CommerceContext';
 import BACK_LINK from '../images/back.svg';
 import SHOPPING_CART from '../images/shoppingCart.svg';
+import Modal from './Modal';
 
 class Header extends React.Component {
   componentDidMount() {
@@ -11,13 +12,9 @@ class Header extends React.Component {
     handleCompleteAPI();
   }
 
-  handleBack = () => {
-
-  }
-
   render() {
     const { data, currency, handleModal, categorySelected,
-      handleChangeCategory, handleChangeCurrency } = this.context;
+      handleChangeCategory, handleChangeCurrency, showModal } = this.context;
     return (
       <Head>
         <Nav>
@@ -54,6 +51,7 @@ class Header extends React.Component {
           <ButtonCart onClick={ handleModal }>
             <ImageCart src={ SHOPPING_CART } alt="Shopping Cart Icon"/>
           </ButtonCart>
+          <Modal showModal={ showModal } />
         </WrapperCartCurrency>
       </Head>
     );

@@ -4,49 +4,58 @@ import styledComponents, { css } from 'styled-components';
 import CommerceContext from '../context/CommerceContext';
 
 class ShoppingCard extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       quantity: 1,
     }
   }
 
-  handleQuantity = ({ target }) => {
-    const { handleTotal, actualCurrency } = this.context;
-    const { element: { prices } } = this.props;
+  componentDidMount() {
+    const { handleTotal } = this.context;
     const { quantity } = this.state;
+    const data = document.querySelectorAll('.price-tag');
+    let total = 0;
+    data.forEach((element) => total += +element.id);
+    handleTotal(total * quantity);
+  }
 
+  handleQuantity = ({ target }) => {
+    const { handleTotal, handleApplyFactor, applyFactor } = this.context;
     if (target.classList.contains('plus')) {
       this.setState((prevState) => ({
         quantity: prevState.quantity + 1,
       }), () => {
-        let actualValue = prices
-          .find((item) => item.currency.label === actualCurrency).amount
-            * (quantity + 1);
-        handleTotal(target, actualValue.toFixed(2));
+        const data = document.querySelectorAll('.price-tag');
+        let total = 0;
+        data.forEach((element) => total += +element.id);
+        console.log(total)
+        handleTotal(total);
       })
     } else {
       this.setState((prevState) => ({
         quantity: prevState.quantity === 1 ? 1 : prevState.quantity - 1,
       }), () => {
-        let actualValue = prices
-          .find((item) => item.currency.label === actualCurrency).amount
-            * (quantity === 1 ? 1 : quantity -1);
-        handleTotal(target, actualValue.toFixed(2));
+        const data = document.querySelectorAll('.price-tag');
+        let total = 0;
+        data.forEach((element) => total += +element.id);
+        handleTotal(total);
       })
-    }    
+    }
+    applyFactor && handleApplyFactor();
   }
 
   render() {
-    const { element } = this.props;
     const { quantity } = this.state;
+    const { element } = this.props;
     const { actualCurrency } = this.context;
+    console.log()
     return (
       <CardWrapper>
         <ContentDetails>
           <Name>{ element.name }</Name>
-          <Price className="price-tag">
+          <Price id={ (element.prices.find((item) => item.currency.label === actualCurrency).amount * quantity).toFixed(2) } className="price-tag">
             {
               `${element.prices.find((item) => item.currency.label === actualCurrency).currency.symbol}
                 ${(element.prices.find((item) => item.currency.label === actualCurrency).amount * quantity).toFixed(2)}`

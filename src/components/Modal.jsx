@@ -5,9 +5,13 @@ import ShoppingCard from "./ShoppingCard";
 
 class Modal extends React.Component {
   render() {
-    const { cart, actualCurrency, total, currency } = this.context;
+    const { showModal } = this.props;
+    const { cart, total, currencyfactor, applyFactor, currency, actualCurrency } = this.context;
     return (
-      <ModalWrapper>
+      <ModalWrapper style={{
+        opacity: showModal ? 1 : 0,
+        pointerEvents: !showModal && 'none',
+      }}>
         <ModalHeader>
           <SectionTitle>My Bag, { cart.length } items.</SectionTitle>
         </ModalHeader>
@@ -27,12 +31,8 @@ class Modal extends React.Component {
             Total
           </SectionTitle>
           <SectionTitle>
-            { 
-              total.length === 0
-              ? 0
-              : `${currency.find((element) => element.label === actualCurrency).symbol} 
-                ${Object.values(total).lengt && (Object.values(total)
-                  .reduce((acc, curr) => +acc + +curr))}`
+            {
+              total * (applyFactor ? currencyfactor : 1)
             }
           </SectionTitle>
         </ModalFooter>
@@ -46,9 +46,10 @@ const ModalWrapper = styledComponents.div`
   display: flex;
   flex-direction: column;
   height: 677px;
-  right: 72px;
+  margin-top: 755px;
   padding: 32px 16px;
   position: absolute;
+  right: 72px;
   width: 325px;
   z-index: 2; 
 `;

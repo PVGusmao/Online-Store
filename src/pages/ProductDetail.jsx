@@ -1,7 +1,5 @@
 import React from 'react';
-import Header from '../components/Header';
 import DetailCard from '../components/DetailCard';
-import Modal from '../components/Modal';
 import styledComponents from 'styled-components';
 import CommerceContext from '../context/CommerceContext';
 
@@ -26,10 +24,6 @@ class ProductDetail extends React.Component {
     const { showModal, handleModal } = this.context;
     return (
       <>
-        <Header />
-        {
-          showModal && <Modal showModal={ showModal } />
-        }
         {
           showModal && (<Shadow onClick={ handleModal } />)
         }
