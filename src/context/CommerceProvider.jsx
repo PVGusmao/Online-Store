@@ -4,8 +4,8 @@ import CommerceContext from './CommerceContext';
 import { fetchCurrency, fetchData } from '../services/api';
 
 class CommerceProvider extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.state = {
       data: [],
@@ -16,22 +16,23 @@ class CommerceProvider extends React.Component {
       showModal: false,
       cart: [],
       counter: 0,
-      total: 0,
-      currencyfactor: 1,
-      applyFactor: false,
     }
   }
 
-  handleApplyFactor = () => {
-    this.setState((prev) => ({
-      applyFactor: !prev.applyFactor,
+  handleQuantity = (target) => {
+    const { value, id } = target;
+    const { cart } = this.state
+    if (id === 'plus') {
+      cart.find((element) => element.id === +value).quantity += 1
+    } else {
+      if ( cart.find((element) => element.id === +value).quantity > 1)
+      cart.find((element) => element.id === +value).quantity -= 1
+    }
+    this.setState((prevState) => ({
+      cart: [
+        ...prevState.cart,
+      ]
     }))
-  }
-
-  handleTotal = (total) => {
-    this.setState({
-      total,
-    })
   }
 
   handleCounter = () => {
@@ -63,13 +64,12 @@ class CommerceProvider extends React.Component {
   }
 
   handleChangeCurrency = ({ target }) => {
-    const { products, applyFactor, actualCurrency, currencyfactor } = this.state;
+    const { products } = this.state;
     this.setState((prev) => ({
       actualCurrency: target.value,
       currencyfactor: (products[0].products[0].prices.find((item) => item.currency.label === target.value).amount) /
       (products[0].products[0].prices.find((item) => item.currency.label === prev.actualCurrency).amount),
     }))
-    !applyFactor && this.handleApplyFactor();
   }
 
   handleChangeCategory = ({ target }) => {
@@ -91,8 +91,7 @@ class CommerceProvider extends React.Component {
             handleModal: this.handleModal,
             handleAddCart: this.handleAddCart,
             handleCounter: this.handleCounter,
-            handleTotal: this.handleTotal,
-            handleApplyFactor: this.handleApplyFactor,
+            handleQuantity: this.handleQuantity,
           } }
         >
           {children}

@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styledComponents, { css } from 'styled-components';
 import CommerceContext from '../context/CommerceContext';
-import swal from 'sweetalert';
 
 class DetailCard extends React.Component {
   constructor() {
@@ -67,7 +66,7 @@ class DetailCard extends React.Component {
 
     cart.every((element) => (
       JSON.stringify(element.selectedAttribute) !== JSON.stringify(selectedAttribute))
-    ) && handleAddCart(objCart); 
+    ) && handleAddCart(objCart);
   }
 
   render() {

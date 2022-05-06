@@ -4,61 +4,17 @@ import styledComponents, { css } from 'styled-components';
 import CommerceContext from '../context/CommerceContext';
 
 class ShoppingCard extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      quantity: 1,
-    }
-  }
-
-  componentDidMount() {
-    const { handleTotal } = this.context;
-    const { quantity } = this.state;
-    const data = document.querySelectorAll('.price-tag');
-    let total = 0;
-    data.forEach((element) => total += +element.id);
-    handleTotal(total * quantity);
-  }
-
-  handleQuantity = ({ target }) => {
-    const { handleTotal, handleApplyFactor, applyFactor } = this.context;
-    if (target.classList.contains('plus')) {
-      this.setState((prevState) => ({
-        quantity: prevState.quantity + 1,
-      }), () => {
-        const data = document.querySelectorAll('.price-tag');
-        let total = 0;
-        data.forEach((element) => total += +element.id);
-        console.log(total)
-        handleTotal(total);
-      })
-    } else {
-      this.setState((prevState) => ({
-        quantity: prevState.quantity === 1 ? 1 : prevState.quantity - 1,
-      }), () => {
-        const data = document.querySelectorAll('.price-tag');
-        let total = 0;
-        data.forEach((element) => total += +element.id);
-        handleTotal(total);
-      })
-    }
-    applyFactor && handleApplyFactor();
-  }
-
   render() {
-    const { quantity } = this.state;
     const { element } = this.props;
-    const { actualCurrency } = this.context;
-    console.log()
+    const { actualCurrency, handleQuantity } = this.context;
     return (
       <CardWrapper>
         <ContentDetails>
           <Name>{ element.name }</Name>
-          <Price id={ (element.prices.find((item) => item.currency.label === actualCurrency).amount * quantity).toFixed(2) } className="price-tag">
+          <Price className="price-tag">
             {
               `${element.prices.find((item) => item.currency.label === actualCurrency).currency.symbol}
-                ${(element.prices.find((item) => item.currency.label === actualCurrency).amount * quantity).toFixed(2)}`
+                ${(element.prices.find((item) => item.currency.label === actualCurrency).amount * element.quantity).toFixed(2)}`
             }
           </Price>
           <div>
@@ -95,16 +51,18 @@ class ShoppingCard extends React.Component {
         </ContentDetails>
         <QuantityController>
           <Plus
-            id={ element.id }
-            onClick={ this.handleQuantity }
+            id="plus"
+            value={ element.id }
+            onClick={ ({ target }) => handleQuantity(target) }
             className="plus"
           >
             +
           </Plus>
-            <Quantity>{ quantity }</Quantity>
+            <Quantity>{ element.quantity }</Quantity>
           <Minus
-            id={ element.id }
-            onClick={ this.handleQuantity }
+            id="minus"
+            value={ element.id }
+            onClick={ ({ target }) => handleQuantity(target) }
             className="minus"
           >
             -
@@ -213,8 +171,9 @@ const QuantityController = styledComponents.div`
   padding-left: 5px
 `;
 
-const Plus = styledComponents.div`
+const Plus = styledComponents.button`
   align-items: center;
+  background-color: white;
   border: 1px solid black;
   cursor: pointer;
   font-size: 20px;
@@ -223,6 +182,7 @@ const Plus = styledComponents.div`
   height: 24px;
   justify-content: center;
   width: 24px;
+	outline: inherit;
 `;
 
 const Quantity = styledComponents.p`
@@ -246,8 +206,9 @@ const Quantity = styledComponents.p`
   top: 43.16%;
 `;
 
-const Minus = styledComponents.div`
+const Minus = styledComponents.button`
   align-items: center;
+  background-color: white;
   border: 1px solid black;
   cursor: pointer;
   font-size: 20px;
@@ -256,6 +217,7 @@ const Minus = styledComponents.div`
   height: 24px;
   justify-content: center;
   width: 24px;
+	outline: inherit;
 `;
 
 const Image = styledComponents.div`

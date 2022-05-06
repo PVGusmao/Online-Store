@@ -1,17 +1,22 @@
 import React from "react";
-import styledComponents from "styled-components";
+import styledComponents, { css } from "styled-components";
 import CommerceContext from '../context/CommerceContext';
 import ShoppingCard from "./ShoppingCard";
 
 class Modal extends React.Component {
+  handleTotalPrice = () => {
+    const { cart, actualCurrency, currency } = this.context;
+    const symbol = currency.length && currency.find((currency) => currency.label === actualCurrency).symbol;
+    const value = cart.map((item) => item.prices.find((price) => price.currency.label === actualCurrency).amount * item.quantity)
+    const totalValue = value.length && value.reduce((acc, curr) => acc + curr);
+    return `${symbol} ${totalValue.toFixed(2)}`;
+  }
+
   render() {
     const { showModal } = this.props;
-    const { cart, total, currencyfactor, applyFactor, currency, actualCurrency } = this.context;
+    const { cart } = this.context;
     return (
-      <ModalWrapper style={{
-        opacity: showModal ? 1 : 0,
-        pointerEvents: !showModal && 'none',
-      }}>
+      <ModalWrapper showModal={ showModal }>
         <ModalHeader>
           <SectionTitle>My Bag, { cart.length } items.</SectionTitle>
         </ModalHeader>
@@ -21,7 +26,6 @@ class Modal extends React.Component {
               <ShoppingCard
                 key={ index }
                 element={ element }
-                handleTotal={ this.handleTotal }
               />
             ))
           }
@@ -32,7 +36,7 @@ class Modal extends React.Component {
           </SectionTitle>
           <SectionTitle>
             {
-              total * (applyFactor ? currencyfactor : 1)
+              this.handleTotalPrice()
             }
           </SectionTitle>
         </ModalFooter>
@@ -51,7 +55,21 @@ const ModalWrapper = styledComponents.div`
   position: absolute;
   right: 72px;
   width: 325px;
-  z-index: 2; 
+  z-index: 2;
+
+  ${(props) => {
+    switch(props.showModal) {
+      case true:
+        return css`
+          opacity: 1;
+        `;
+      default:
+        return css`
+          opacity: 0;
+          pointer-events: none;
+        `;
+    }
+  }} 
 `;
 
 const ModalHeader = styledComponents.header`
