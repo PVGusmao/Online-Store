@@ -118,6 +118,7 @@ const Button = styledComponents.button`
           align-items: center;
           background: #FFFFFF;
           border: 1px solid #1D1F22;
+          cursor: pointer;
           display: flex;
           flex-direction: column;
           font-family: 'Raleway';
@@ -138,6 +139,7 @@ const Button = styledComponents.button`
           align-items: center;
           background: #5ECE7B;
           border: none;
+          cursor: pointer;
           color: #FFFFFF;
           display: flex;
           flex-direction: column;
