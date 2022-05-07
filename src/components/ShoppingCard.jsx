@@ -78,11 +78,13 @@ const CardWrapper = styledComponents.div`
   align-items: center;
   display: flex;
   justify-content: space-between;
+  height: 220px;
 `;
 
 const ContentDetails = styledComponents.section`
   margin-top: 20px;
   margin-bottom: 20px;
+  width: 140px
 `;
 
 const Name = styledComponents.p`
@@ -127,7 +129,7 @@ const AttributeItems = styledComponents.div`
   justify-content: center;
   line-height: 160%;
   margin: 0px 5px;
-  padding: 5px;
+  padding: 10px 5px;
 
   ${(props) => {
     switch(props.id) {
@@ -168,7 +170,12 @@ const AttributeTitle = styledComponents.div`
 `;
 
 const QuantityController = styledComponents.div`
-  padding-left: 5px
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-left: 5px;
+  height: 80%;
 `;
 
 const Plus = styledComponents.button`
@@ -177,7 +184,6 @@ const Plus = styledComponents.button`
   border: 1px solid black;
   cursor: pointer;
   font-size: 20px;
-  font-weight: 600;
   display: flex;
   height: 24px;
   justify-content: center;
@@ -212,7 +218,6 @@ const Minus = styledComponents.button`
   border: 1px solid black;
   cursor: pointer;
   font-size: 20px;
-  font-weight: 600;
   display: flex;
   height: 24px;
   justify-content: center;

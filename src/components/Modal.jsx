@@ -18,7 +18,7 @@ class Modal extends React.Component {
     return (
       <ModalWrapper showModal={ showModal }>
         <ModalHeader>
-          <SectionTitle>My Bag, { cart.length } items.</SectionTitle>
+          <SectionTitle>My Bag, { cart.length } {cart.length === 1 ? 'item' : 'items'}.</SectionTitle>
         </ModalHeader>
         <AllCardWrapper>
           {
@@ -31,14 +31,20 @@ class Modal extends React.Component {
           }
         </AllCardWrapper>
         <ModalFooter>
-          <SectionTitle>
-            Total
+          <PriceWrapper>
+            <SectionTitle>
+              Total
+            </SectionTitle>
+            <SectionTitle>
+              {
+                this.handleTotalPrice()
+              }
           </SectionTitle>
-          <SectionTitle>
-            {
-              this.handleTotalPrice()
-            }
-          </SectionTitle>
+          </PriceWrapper>
+          <ButtonWrapper>
+            <Button context="viewBag">VIEW BAG</Button>
+            <Button context="checkOut">CHECK OUT</Button>
+          </ButtonWrapper>
         </ModalFooter>
       </ModalWrapper>
     )
@@ -54,7 +60,7 @@ const ModalWrapper = styledComponents.div`
   padding: 32px 16px;
   position: absolute;
   right: 72px;
-  width: 325px;
+  width: 370px;
   z-index: 2;
 
   ${(props) => {
@@ -77,14 +83,79 @@ const ModalHeader = styledComponents.header`
 `;
 
 const AllCardWrapper = styledComponents.main`
+  height: 450px; 
   overflow-y: auto;
 `;
 
 const ModalFooter = styledComponents.footer`
   align-items: center;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   padding-top: 15px;
+`;
+
+const ButtonWrapper = styledComponents.section`
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  width: 100%;
+`
+
+const PriceWrapper = styledComponents.section`
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`
+
+const Button = styledComponents.button`
+  ${(props) => {
+    switch(props.context) {
+      case 'viewBag':
+        return css`
+          align-items: center;
+          background: #FFFFFF;
+          border: 1px solid #1D1F22;
+          display: flex;
+          flex-direction: column;
+          font-family: 'Raleway';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 14px;
+          height: 43px;
+          justify-content: center;
+          left: 0px;
+          line-height: 120%;
+          padding: 16px 32px;
+          position: static;
+          width: 160px;
+          top: 0px;
+        `;
+      default:
+        return css`
+          align-items: center;
+          background: #5ECE7B;
+          border: none;
+          color: #FFFFFF;
+          display: flex;
+          flex-direction: column;
+          font-family: 'Raleway';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 14px;
+          height: 43px;
+          justify-content: center;
+          left: 0px;
+          line-height: 120%;
+          padding: 16px 32px;
+          position: static;
+          width: 160px;
+          top: 0px;
+        `;
+    }
+  }} 
 `;
 
 const SectionTitle = styledComponents.h3`
