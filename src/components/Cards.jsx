@@ -1,33 +1,43 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import styledComponents from 'styled-components';
-import CommerceContext from '../context/CommerceContext';
-import { Link } from 'react-router-dom';
+import React from "react";
+import PropTypes from "prop-types";
+import styledComponents from "styled-components";
+import CommerceContext from "../context/CommerceContext";
+import { Link } from "react-router-dom";
 
 class Cards extends React.Component {
   render() {
-    const { item, item: { name, gallery, prices, inStock, id } } = this.props;
+    const {
+      item,
+      item: { name, gallery, prices, inStock, id },
+    } = this.props;
     const { actualCurrency } = this.context;
     return (
       <Card>
-        <Link to={ {
-          pathname: inStock ? `/productdetail/${id}` : '/',
-          state: item,
-        } }>
-          <Image style={ { opacity: !inStock ? 0.300 : 1 } } src={ gallery[0] } alt={ name } />
+        <Link
+          to={{
+            pathname: inStock ? `/productdetail/${id}` : "/",
+            state: item,
+          }}
+        >
+          <Image
+            style={{ opacity: !inStock ? 0.3 : 1 }}
+            src={gallery[0]}
+            alt={name}
+          />
         </Link>
-        <Name style={ { opacity: !inStock ? 0.300 : 1 } }>
-          { name }
-        </Name>
-        <Price style={ { opacity: !inStock ? 0.300 : 1 } }>
-          {
-            `${prices.find((element) => element.currency.label === actualCurrency).currency.symbol}
-            ${prices.find((element) => element.currency.label === actualCurrency).amount}`
+        <Name style={{ opacity: !inStock ? 0.3 : 1 }}>{name}</Name>
+        <Price style={{ opacity: !inStock ? 0.3 : 1 }}>
+          {`${
+            prices.find((element) => element.currency.label === actualCurrency)
+              .currency.symbol
           }
+            ${
+              prices.find(
+                (element) => element.currency.label === actualCurrency
+              ).amount
+            }`}
         </Price>
-          {
-            !inStock && <OutOfStock>OUT OF STOCK</OutOfStock>
-          }
+        {!inStock && <OutOfStock>OUT OF STOCK</OutOfStock>}
       </Card>
     );
   }

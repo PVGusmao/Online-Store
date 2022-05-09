@@ -1,57 +1,59 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import styledComponents, { css } from 'styled-components';
-import CommerceContext from '../context/CommerceContext';
+import React from "react";
+import PropTypes from "prop-types";
+import styledComponents, { css } from "styled-components";
+import CommerceContext from "../context/CommerceContext";
 
 class DetailCard extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      clickedImage: '',
+      clickedImage: "",
       selectedAttribute: {},
       counter: 0,
-    }
+    };
   }
 
   handleImage = (element) => {
     this.setState({
       clickedImage: element,
-    })
-  }
+    });
+  };
 
   handleAttributes = ({ target }) => {
-    const attributesOptions = target.closest('div').childNodes;
-    attributesOptions.forEach((element) => (
-      element.classList.remove('selected-attribute', 'selected-attribute-color')
-    ))
-    if (target.id === 'color') {
-      target.classList.add('selected-attribute-color')
+    const attributesOptions = target.closest("div").childNodes;
+    attributesOptions.forEach((element) =>
+      element.classList.remove("selected-attribute", "selected-attribute-color")
+    );
+    if (target.id === "color") {
+      target.classList.add("selected-attribute-color");
       this.setState((prevState) => ({
         selectedAttribute: {
           ...prevState.selectedAttribute,
           [target.id]: target.name,
-        } 
-      }))
+        },
+      }));
     } else {
-      target.classList.add('selected-attribute');
+      target.classList.add("selected-attribute");
       this.setState((prevState) => ({
         selectedAttribute: {
           ...prevState.selectedAttribute,
           [target.id]: target.name,
-        } 
-      }))
+        },
+      }));
     }
-  }
+  };
 
   handleClick = () => {
-    const { details: { brand, gallery, name, prices, attributes } } = this.props;
+    const {
+      details: { brand, gallery, name, prices, attributes },
+    } = this.props;
     const { selectedAttribute } = this.state;
     const { handleAddCart, cart, counter, handleCounter } = this.context;
 
     handleCounter();
 
-    this.setState((prev) => ({ counter: prev.counter + 1 }))
+    this.setState((prev) => ({ counter: prev.counter + 1 }));
 
     const objCart = {
       brand,
@@ -62,78 +64,91 @@ class DetailCard extends React.Component {
       gallery: gallery[0],
       quantity: 1,
       id: counter,
-    }
+    };
 
-    cart.every((element) => (
-      JSON.stringify(element.selectedAttribute) !== JSON.stringify(selectedAttribute))
+    cart.every(
+      (element) =>
+        JSON.stringify(element.selectedAttribute) !==
+        JSON.stringify(selectedAttribute)
     ) && handleAddCart(objCart);
-  }
+  };
 
   render() {
     const { clickedImage } = this.state;
     const { actualCurrency } = this.context;
-    const { details: { attributes, prices, name,
-      gallery, description, brand } } = this.props;
+    const {
+      details: { attributes, prices, name, gallery, description, brand },
+    } = this.props;
 
     return (
       <Wrapper>
         <ImageOptions>
-          {
-            gallery && gallery.map((element, index) => (
+          {gallery &&
+            gallery.map((element, index) => (
               <ImageOptionsItem
                 className="images"
-                onClick={() => this.handleImage(element) }
-                id={ element }
-                key={ index }
-                name={ element }
+                onClick={() => this.handleImage(element)}
+                id={element}
+                key={index}
+                name={element}
               />
-            ))
-          }
+            ))}
         </ImageOptions>
         <WrapperImageDescription>
-          <ImageSelected
-            id={ gallery && gallery[0] }
-            name={ clickedImage }
-          />
+          <ImageSelected id={gallery && gallery[0]} name={clickedImage} />
           <Description>
-            <Name>{ name }</Name>
-            <Brand>{ brand }</Brand>
+            <Name>{name}</Name>
+            <Brand>{brand}</Brand>
             <div className="get-this-html-on-click">
-              {
-                attributes && attributes.map((element, ind) => (
-                  <AttributesWrapper key={ ind }>
-                    <AttributeTitle>{ element.name.toUpperCase() }: </AttributeTitle>
-                      <AttributeList>
-                        {
-                          element.items.map((items, index) => (
-                            <AttributeItems
-                              style={{
-                                backgroundColor: element.name.toLowerCase() === 'color' && items.value
-                              }}
-                              key={ index }
-                              name={ items.value }
-                              id={ element.id.toLowerCase().split(' ')[element.id.toLowerCase().split(' ').length-1] }
-                              onClick={ this.handleAttributes}
-                              >
-                              { element.name.toLowerCase() === 'color' ? '' : items.value }
-                            </AttributeItems>
-                          ))
-                        }
-                      </AttributeList>
+              {attributes &&
+                attributes.map((element, ind) => (
+                  <AttributesWrapper key={ind}>
+                    <AttributeTitle>
+                      {element.name.toUpperCase()}:{" "}
+                    </AttributeTitle>
+                    <AttributeList>
+                      {element.items.map((items, index) => (
+                        <AttributeItems
+                          style={{
+                            backgroundColor:
+                              element.name.toLowerCase() === "color" &&
+                              items.value,
+                          }}
+                          key={index}
+                          name={items.value}
+                          id={
+                            element.id.toLowerCase().split(" ")[
+                              element.id.toLowerCase().split(" ").length - 1
+                            ]
+                          }
+                          onClick={this.handleAttributes}
+                        >
+                          {element.name.toLowerCase() === "color"
+                            ? ""
+                            : items.value}
+                        </AttributeItems>
+                      ))}
+                    </AttributeList>
                   </AttributesWrapper>
-                ))
-              }
+                ))}
             </div>
             <PriceWrapper>
               <PriceTitle>PRICE: </PriceTitle>
               <PriceValue>
-                {
-                  prices && `${prices.find((element) => element.currency.label === actualCurrency).currency.symbol}
-                    ${prices.find((element) => element.currency.label === actualCurrency).amount}`
-                }
+                {prices &&
+                  `${
+                    prices.find(
+                      (element) => element.currency.label === actualCurrency
+                    ).currency.symbol
+                  }
+                    ${
+                      prices.find(
+                        (element) => element.currency.label === actualCurrency
+                      ).amount
+                    }`}
               </PriceValue>
             </PriceWrapper>
-            <ButtomAddToCart onClick={ this.handleClick }>
+            <ButtomAddToCart onClick={this.handleClick}>
               ADD TO CART
             </ButtomAddToCart>
             <DetailsAbout dangerouslySetInnerHTML={{ __html: description }} />
@@ -143,7 +158,6 @@ class DetailCard extends React.Component {
     );
   }
 }
-
 
 const Wrapper = styledComponents.section`
   align-items: center;
@@ -168,7 +182,7 @@ const ImageOptionsItem = styledComponents.section`
     return css`
       background-image: url(${props.name});
       background-size: cover;
-    `
+    `;
   }} 
 `;
 
@@ -182,9 +196,9 @@ const ImageSelected = styledComponents.section`
 
   ${(props) => {
     return css`
-      background-image: url(${props.name === '' ? props.id : props.name});
+      background-image: url(${props.name === "" ? props.id : props.name});
       background-size: 100% 100%;
-    `
+    `;
   }} 
 `;
 
@@ -241,7 +255,7 @@ const AttributeItems = styledComponents.button`
 
 const PriceWrapper = styledComponents.section`
 
-`
+`;
 
 const PriceTitle = styledComponents.p`
   font-family: 'Roboto Condensed';
@@ -249,7 +263,7 @@ const PriceTitle = styledComponents.p`
   font-weight: 700;
   font-size: 16px;
   line-height: 18px;
-`
+`;
 
 const PriceValue = styledComponents.p`
   font-family: 'Raleway';
@@ -260,7 +274,7 @@ const PriceValue = styledComponents.p`
   line-height: 18px;
   margin-top: 10px;
   width: 105px;
-`
+`;
 
 const ButtomAddToCart = styledComponents.button.attrs(() => ({ tabIndex: 0 }))`
   align-items: center;
