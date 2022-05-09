@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styledComponents, { css } from "styled-components";
 import CommerceContext from "../context/CommerceContext";
 import ShoppingCard from "./ShoppingCard";
@@ -39,7 +40,11 @@ class Modal extends React.Component {
             <SectionTitle>{this.handleTotalPrice()}</SectionTitle>
           </PriceWrapper>
           <ButtonWrapper>
-            <Button context="viewBag">VIEW BAG</Button>
+            <Link to="/cart">
+              <Button context="viewBag">
+                VIEW BAG
+              </Button>
+            </Link>
             <Button context="checkOut">CHECK OUT</Button>
           </ButtonWrapper>
         </ModalFooter>
