@@ -5,7 +5,30 @@ import backButton from "../images/backButton.svg";
 import forwardButton from "../images/forwardButton.svg";
 
 class CardList extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      counter: 0,
+    }
+  }
+
+  handleClick = ({ target }) => {
+    const { element: { gallery } } = this.props;
+    console.log(target.alt)
+    if (target.alt === 'next') {
+      this.setState((prevState) => ({
+        counter: prevState.counter === gallery.length - 1 ? 0 : prevState.counter + 1,
+      }))
+    } else {
+      this.setState((prevState) => ({
+        counter: prevState.counter === 0 ? gallery.length - 1 : prevState.counter - 1,
+      }))
+    }
+  }
+
   render() {
+    const { counter } = this.state;
     const { element } = this.props;
     const { actualCurrency, handleQuantity } = this.context;
     return (
@@ -84,9 +107,17 @@ class CardList extends React.Component {
             </Minus>
           </PlusMinusButtomWrapper>
         <ImageChangerWrapper>
-          <Image name={element.gallery[0]} />
-          <ImageChangerBack src={ backButton } alt="Previous" />
-          <ImageChangerForward src={ forwardButton } alt="Next" />
+          <Image name={element.gallery[counter]} />
+          <ImageChangerBack
+            onClick={ this.handleClick }
+            src={ backButton }
+            alt="previous"
+          />
+          <ImageChangerForward
+            onClick={ this.handleClick }
+            src={ forwardButton }
+            alt="next"
+          />
         </ImageChangerWrapper>
         </QuantityController>
       </>
@@ -98,20 +129,21 @@ const ImageChangerWrapper = styledComponents.div`
   display: flex;
   position: relative;
   bottom: 0;
+  width: 400px;
 `
 const ImageChangerBack = styledComponents.img`
   bottom: 10px;
   cursor: pointer;
   margin: 2px;
   position: absolute;
-  right: 40px;
+  right: 60px;
 `
 const ImageChangerForward = styledComponents.img`
   bottom: 10px;
   cursor: pointer;
   margin: 2px;
   position: absolute;
-  right: 10px;
+  right: 30px;
 `
 
 const PlusMinusButtomWrapper = styledComponents.div`
@@ -221,7 +253,7 @@ const QuantityController = styledComponents.div`
   align-items: center;
   display: flex;
   height: 100%;
-  width: 300px; 
+  width: 400px; 
 `;
 
 const Plus = styledComponents.button`
@@ -275,7 +307,7 @@ const Minus = styledComponents.button`
 const Image = styledComponents.div`
   height: 300px;
   position: relative;
-  width: 200px;
+  width: 300px;
 
   ${(props) => {
     return css`
