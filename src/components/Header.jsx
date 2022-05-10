@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { css } from "styled-components";
 import CommerceContext from "../context/CommerceContext";
 import BACK_LINK from "../images/back.svg";
 import SHOPPING_CART from "../images/shoppingCart.svg";
@@ -14,12 +15,13 @@ class Header extends React.Component {
 
   render() {
     const {
-      data,
-      currency,
-      handleModal,
+      cart,
       categorySelected,
+      currency,
+      data,
       handleChangeCategory,
       handleChangeCurrency,
+      handleModal,
       showModal,
     } = this.context;
     return (
@@ -60,6 +62,7 @@ class Header extends React.Component {
             ))}
           </CurrencySelect>
           <ButtonCart onClick={handleModal}>
+            <QuantityCartIndicator quantity={cart.length}>{ cart.length }</QuantityCartIndicator>
             <ImageCart src={SHOPPING_CART} alt="Shopping Cart Icon" />
           </ButtonCart>
           <Modal showModal={showModal} />
@@ -110,6 +113,7 @@ const WrapperCartCurrency = styled.section`
   display: flex;
   justify-content: space-between;
   margin-right: 100px;
+  position: relative;
   width: 150px;
 `;
 
@@ -133,8 +137,37 @@ const ImageCart = styled.img`
 
 const ImageBack = styled.img`
   cursor: pointer;
+  position: relative;
   width: 48px;
 `;
+
+const QuantityCartIndicator = styled.div`
+  align-items: center;
+  background: black;
+  border-radius: 50px;
+  color: white;
+  display: flex;
+  font-size: 16px;
+  height: 20px;
+  justify-content: center;
+  position: absolute;
+  right: 0;
+  width: 20px;
+
+  ${(props) => {
+    switch(+props.quantity) {
+      case 0:
+        return css`
+          opacity: 0;
+          pointer-events: none;
+        `;
+      default:
+        return css`
+          opacity: 1;
+        `;
+    }
+  }}
+`
 
 const ButtonCart = styled.button`
   background: none;

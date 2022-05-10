@@ -20,7 +20,6 @@ class CommerceProvider extends React.Component {
   }
 
   handleRemoveItem = ({ target }) => {
-    console.log(+target.id);
     const { cart } = this.state;
     const filteredCart = cart.filter((element) => element.id !== +target.id);
     this.setState({
