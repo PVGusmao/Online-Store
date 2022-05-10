@@ -61,7 +61,7 @@ class DetailCard extends React.Component {
       prices,
       selectedAttribute,
       attributes,
-      gallery: gallery[0],
+      gallery: gallery,
       quantity: 1,
       id: counter,
     };

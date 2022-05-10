@@ -1,6 +1,8 @@
 import React from "react";
 import styledComponents, { css } from "styled-components";
 import CommerceContext from "../context/CommerceContext";
+import backButton from "../images/backButton.svg";
+import forwardButton from "../images/forwardButton.svg";
 
 class CardList extends React.Component {
   render() {
@@ -81,14 +83,39 @@ class CardList extends React.Component {
               -
             </Minus>
           </PlusMinusButtomWrapper>
-        <Image name={element.gallery} />
+        <ImageChangerWrapper>
+          <Image name={element.gallery[0]} />
+          <ImageChangerBack src={ backButton } alt="Previous" />
+          <ImageChangerForward src={ forwardButton } alt="Next" />
+        </ImageChangerWrapper>
         </QuantityController>
       </>
     );
   }
 }
 
+const ImageChangerWrapper = styledComponents.div`
+  display: flex;
+  position: relative;
+  bottom: 0;
+`
+const ImageChangerBack = styledComponents.img`
+  bottom: 10px;
+  cursor: pointer;
+  margin: 2px;
+  position: absolute;
+  right: 40px;
+`
+const ImageChangerForward = styledComponents.img`
+  bottom: 10px;
+  cursor: pointer;
+  margin: 2px;
+  position: absolute;
+  right: 10px;
+`
+
 const PlusMinusButtomWrapper = styledComponents.div`
+  margin: 0px 20px ; 
   height: 100%;
 `
 
@@ -100,7 +127,7 @@ const ContentDetails = styledComponents.section`
   height: 100%;
   margin-top: 20px;
   margin-bottom: 20px;
-  width: 140px;
+  width: 200px;
 `;
 
 const Name = styledComponents.p`
@@ -121,6 +148,7 @@ const Brand = styledComponents.p`
   font-weight: 400;
   font-size: 30px;
   line-height: 27px;
+  width: 100%;
 `;
 
 const Price = styledComponents.p`
@@ -135,14 +163,19 @@ const Price = styledComponents.p`
   left: 100px;
   line-height: 24px;
   top: 370px;
-  width: 79px;
+  width: 100%;
 `;
 
 const AttributeItems = styledComponents.div`
+  align-items: center;
   background: #FFFFFF;
   border: 1px solid #1D1F22;
+  cursor: pointer;
+  display: flex;
   height: 45px;
+  justify-content: center;
   left: 0px;
+  margin: 10px;
   top: 0px;
   width: 63px;
 
@@ -150,13 +183,13 @@ const AttributeItems = styledComponents.div`
     switch (props.id) {
       case "color":
         return css`
-          height: 16px;
-          width: 16px;
+          height: 36px;
+          width: 36px;
         `;
       default:
         return css`
-          height: 24px;
-          width: auto;
+          height: 42px;
+          width: 52px;
         `;
     }
   }} 
@@ -188,6 +221,7 @@ const QuantityController = styledComponents.div`
   align-items: center;
   display: flex;
   height: 100%;
+  width: 300px; 
 `;
 
 const Plus = styledComponents.button`
@@ -239,9 +273,9 @@ const Minus = styledComponents.button`
 `;
 
 const Image = styledComponents.div`
-  height: 190px;
-  margin-left: 5px;
-  width: 120px;
+  height: 300px;
+  position: relative;
+  width: 200px;
 
   ${(props) => {
     return css`
