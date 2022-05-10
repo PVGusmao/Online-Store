@@ -40,7 +40,7 @@ class Modal extends React.Component {
             <SectionTitle>{this.handleTotalPrice()}</SectionTitle>
           </PriceWrapper>
           <ButtonWrapper>
-            <Link to="/cart">
+            <Link style={{textDecoration: 'none'}} to="/cart">
               <Button context="viewBag">
                 VIEW BAG
               </Button>

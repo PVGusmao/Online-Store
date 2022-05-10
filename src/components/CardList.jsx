@@ -15,7 +15,6 @@ class CardList extends React.Component {
 
   handleClick = ({ target }) => {
     const { element: { gallery } } = this.props;
-    console.log(target.alt)
     if (target.alt === 'next') {
       this.setState((prevState) => ({
         counter: prevState.counter === gallery.length - 1 ? 0 : prevState.counter + 1,
@@ -48,7 +47,7 @@ class CardList extends React.Component {
                 ).amount * element.quantity
               ).toFixed(2)}`}
         </Price>
-        <div>
+        <ExternalAttributeDiv>
           {element.attributes.map((value, ind) => (
             <div key={ind}>
               <AttributeTit>{value.name.toUpperCase()}: </AttributeTit>
@@ -84,7 +83,7 @@ class CardList extends React.Component {
               </AttributeList>
             </div>
           ))}
-        </div>
+        </ExternalAttributeDiv>
         </ContentDetails>
         <QuantityController>
           <PlusMinusButtomWrapper>
@@ -106,44 +105,77 @@ class CardList extends React.Component {
               -
             </Minus>
           </PlusMinusButtomWrapper>
-        <ImageChangerWrapper>
-          <Image name={element.gallery[counter]} />
-          <ImageChangerBack
-            onClick={ this.handleClick }
-            src={ backButton }
-            alt="previous"
-          />
-          <ImageChangerForward
-            onClick={ this.handleClick }
-            src={ forwardButton }
-            alt="next"
-          />
-        </ImageChangerWrapper>
+          <ImageChangerWrapper>
+            <Image name={element.gallery[counter]} />
+            <ImageChangerBack
+              onClick={ this.handleClick }
+              src={ backButton }
+              alt="previous"
+            />
+            <ImageChangerForward
+              onClick={ this.handleClick }
+              src={ forwardButton }
+              alt="next"
+            />
+          </ImageChangerWrapper>
+          <RemoveWrapper>
+            <Remove type="button">X</Remove>
+          </RemoveWrapper>
         </QuantityController>
       </>
     );
   }
 }
 
+const RemoveWrapper = styledComponents.div`
+  height: 100%;
+`
+
+const Remove = styledComponents.button`
+  background: none;
+	border: 1px solid black;
+	cursor: pointer;
+	color: inherit;
+	font-family: 'Raleway';
+  font-size: 20px;
+  height: 45px;
+  margin-right: 5px;
+  margin-top: 5px;
+	outline: inherit;
+	padding: 12px;
+  width: 45px;
+
+  &:active {
+    background: black;
+    color: white;
+  }
+`
+
+const ExternalAttributeDiv = styledComponents.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 600px;
+`
+
 const ImageChangerWrapper = styledComponents.div`
   display: flex;
   position: relative;
   bottom: 0;
-  width: 400px;
+  width: 300px;
 `
 const ImageChangerBack = styledComponents.img`
   bottom: 10px;
   cursor: pointer;
   margin: 2px;
   position: absolute;
-  right: 60px;
+  right: 50px;
 `
 const ImageChangerForward = styledComponents.img`
   bottom: 10px;
   cursor: pointer;
   margin: 2px;
   position: absolute;
-  right: 30px;
+  right: 20px;
 `
 
 const PlusMinusButtomWrapper = styledComponents.div`
@@ -174,6 +206,7 @@ const Name = styledComponents.p`
   left: 101px;
   line-height: 27px;
   top: 280px;
+  width: 350px;
 `;
 
 const Brand = styledComponents.p`
@@ -244,16 +277,17 @@ const AttributeTit = styledComponents.div`
   font-style: normal;
   font-size: 18px;
   font-weight: 700;
-  height: 18px;
+  height: auto;
   line-height: 18px;
   text-align: center;
+  width: 320px;
 `;
 
 const QuantityController = styledComponents.div`
   align-items: center;
   display: flex;
   height: 100%;
-  width: 400px; 
+  width: 430px; 
 `;
 
 const Plus = styledComponents.button`
@@ -268,6 +302,11 @@ const Plus = styledComponents.button`
   margin-top: 20px;
   width: 45px;
 	outline: inherit;
+  
+  &:active {
+    background: green;
+    color: white;
+  }
 `;
 
 const Quantity = styledComponents.p`
@@ -302,10 +341,17 @@ const Minus = styledComponents.button`
   justify-content: center;
   width: 45px;
 	outline: inherit;
+
+  &:active {
+    background: red;
+    color: white;
+  }
 `;
 
 const Image = styledComponents.div`
+  border: 1px solid rgba(0, 0, 0, 0.020);
   height: 300px;
+  margin-right: 10px;
   position: relative;
   width: 300px;
 

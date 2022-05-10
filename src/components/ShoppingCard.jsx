@@ -68,7 +68,7 @@ class ShoppingCard extends React.Component {
             -
           </Minus>
         </QuantityController>
-        <Image name={ element.gallery } />
+        <Image name={ element.gallery[0] } />
       </CardWrapper>
     );
   }
@@ -170,10 +170,6 @@ const AttributeTitle = styledComponents.div`
 `;
 
 const QuantityController = styledComponents.div`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   padding-left: 5px;
   height: 80%;
 `;
@@ -204,7 +200,7 @@ const Quantity = styledComponents.p`
   justify-content: center;
   left: 33.33%;
   line-height: 160%;
-  margin: 32px 0px;
+  margin: 50px 0px;
   order: 1;
   position: static;
   right: 33.33%;
