@@ -29,7 +29,7 @@ class CardList extends React.Component {
   render() {
     const { counter } = this.state;
     const { element } = this.props;
-    const { actualCurrency, handleQuantity } = this.context;
+    const { actualCurrency, handleQuantity, handleRemoveItem } = this.context;
     return (
       <>
         <ContentDetails>
@@ -119,7 +119,7 @@ class CardList extends React.Component {
             />
           </ImageChangerWrapper>
           <RemoveWrapper>
-            <Remove type="button">X</Remove>
+            <Remove id={ element.id } onClick={ handleRemoveItem } type="button">X</Remove>
           </RemoveWrapper>
         </QuantityController>
       </>
@@ -139,7 +139,7 @@ const Remove = styledComponents.button`
 	font-family: 'Raleway';
   font-size: 20px;
   height: 45px;
-  margin-right: 5px;
+  margin-right: 10px;
   margin-top: 5px;
 	outline: inherit;
 	padding: 12px;

@@ -19,6 +19,15 @@ class CommerceProvider extends React.Component {
     }
   }
 
+  handleRemoveItem = ({ target }) => {
+    console.log(+target.id);
+    const { cart } = this.state;
+    const filteredCart = cart.filter((element) => element.id !== +target.id);
+    this.setState({
+      cart: filteredCart,
+    })
+  }
+
   handleQuantity = (target) => {
     const { value, id } = target;
     const { cart } = this.state
@@ -92,6 +101,7 @@ class CommerceProvider extends React.Component {
             handleAddCart: this.handleAddCart,
             handleCounter: this.handleCounter,
             handleQuantity: this.handleQuantity,
+            handleRemoveItem: this.handleRemoveItem,
           } }
         >
           {children}
