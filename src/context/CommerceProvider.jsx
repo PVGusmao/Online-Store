@@ -72,12 +72,9 @@ class CommerceProvider extends React.Component {
   }
 
   handleChangeCurrency = ({ target }) => {
-    const { products } = this.state;
-    this.setState((prev) => ({
+    this.setState({
       actualCurrency: target.value,
-      currencyfactor: (products[0].products[0].prices.find((item) => item.currency.label === target.value).amount) /
-      (products[0].products[0].prices.find((item) => item.currency.label === prev.actualCurrency).amount),
-    }))
+    })
   }
 
   handleChangeCategory = ({ target }) => {
