@@ -1,6 +1,7 @@
 import React from 'react';
 import styledComponents from 'styled-components';
 import Cards from '../components/Cards';
+import Header from '../components/Header';
 import CommerceContext from '../context/CommerceContext';
 
 class Home extends React.Component {
@@ -8,6 +9,7 @@ class Home extends React.Component {
     const { showModal, handleModal, categorySelected, products } = this.context;
     return (
       <ExternalWrapper>
+        <Header props={this.props} />
         {
           showModal && (<Shadow onClick={ handleModal } />)
         }

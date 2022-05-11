@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styledComponents, { css } from "styled-components";
 import CommerceContext from "../context/CommerceContext";
 import ShoppingCard from "./ShoppingCard";
@@ -18,6 +17,13 @@ class Modal extends React.Component {
     const totalValue = value.length && value.reduce((acc, curr) => acc + curr);
     return `${symbol} ${totalValue.toFixed(2)}`;
   };
+
+  handleClick = () => {
+    const { props: { history } } = this.props;
+    const { handleModal } = this.context;
+    history.push('/cart');
+    handleModal();
+  }
 
   render() {
     const { showModal } = this.props;
@@ -40,11 +46,9 @@ class Modal extends React.Component {
             <SectionTitle>{this.handleTotalPrice()}</SectionTitle>
           </PriceWrapper>
           <ButtonWrapper>
-            <Link style={{textDecoration: 'none'}} to="/cart">
-              <Button context="viewBag">
+              <Button onClick={this.handleClick} context="viewBag">
                 VIEW BAG
               </Button>
-            </Link>
             <Button context="checkOut">CHECK OUT</Button>
           </ButtonWrapper>
         </ModalFooter>

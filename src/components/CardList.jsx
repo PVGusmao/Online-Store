@@ -107,16 +107,23 @@ class CardList extends React.Component {
           </PlusMinusButtomWrapper>
           <ImageChangerWrapper>
             <Image name={element.gallery[counter]} />
-            <ImageChangerBack
-              onClick={ this.handleClick }
-              src={ backButton }
-              alt="previous"
-            />
-            <ImageChangerForward
-              onClick={ this.handleClick }
-              src={ forwardButton }
-              alt="next"
-            />
+            {
+            element.gallery.length > 1
+              && (
+                <>
+                  <ImageChangerBack
+                    onClick={ this.handleClick }
+                    src={ backButton }
+                    alt="previous"
+                  />
+                  <ImageChangerForward
+                    onClick={ this.handleClick }
+                    src={ forwardButton }
+                    alt="next"
+                  />
+                </>
+            )
+          }
           </ImageChangerWrapper>
           <RemoveWrapper>
             <Remove id={ element.id } onClick={ handleRemoveItem } type="button">X</Remove>
@@ -132,10 +139,10 @@ const RemoveWrapper = styledComponents.div`
 `
 
 const Remove = styledComponents.button`
-  background: none;
+  background: darkred;
 	border: 1px solid black;
 	cursor: pointer;
-	color: inherit;
+	color: white;
 	font-family: 'Raleway';
   font-size: 20px;
   height: 45px;
@@ -146,8 +153,8 @@ const Remove = styledComponents.button`
   width: 45px;
 
   &:active {
-    background: black;
-    color: white;
+    background: white;
+    color: black;
   }
 `
 

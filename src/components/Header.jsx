@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { css } from "styled-components";
 import CommerceContext from "../context/CommerceContext";
@@ -13,6 +12,11 @@ class Header extends React.Component {
     handleCompleteAPI();
   }
 
+  handleClick = () => {
+    const { props: { history } } = this.props;
+    history.goBack();
+  }
+
   render() {
     const {
       cart,
@@ -24,12 +28,13 @@ class Header extends React.Component {
       handleModal,
       showModal,
     } = this.context;
+
     return (
       <Head>
         <Nav>
           {data.length !== 0 &&
             data.data.categories.map((element, index) => (
-              <Button
+              <Button categorySelected={categorySelected}
                 style={{
                   color:
                     categorySelected === element.name ? "#5ece7b" : "black",
@@ -46,9 +51,9 @@ class Header extends React.Component {
               </Button>
             ))}
         </Nav>
-        <Link to="/">
-          <ImageBack src={BACK_LINK} alt="Back Icon" />
-        </Link>
+          <ButtonBack onClick={this.handleClick}>
+            <ImageBack  src={BACK_LINK} alt="Back Icon" />
+          </ButtonBack>
         <WrapperCartCurrency>
           <CurrencySelect
             onChange={(e) => handleChangeCurrency(e)}
@@ -65,7 +70,7 @@ class Header extends React.Component {
             <QuantityCartIndicator quantity={cart.length}>{ cart.length }</QuantityCartIndicator>
             <ImageCart src={SHOPPING_CART} alt="Shopping Cart Icon" />
           </ButtonCart>
-          <Modal showModal={showModal} />
+          <Modal props={this.props.props} showModal={showModal} />
         </WrapperCartCurrency>
       </Head>
     );
@@ -137,6 +142,20 @@ const ImageCart = styled.img`
 
 const ImageBack = styled.img`
   cursor: pointer;
+  height: 100%;
+  position: relative;
+  width: 100%;
+`;
+
+const ButtonBack = styled.button`
+  background: none;
+	color: inherit;
+	cursor: pointer;
+	border: none;
+	padding: 0;
+	font: inherit;
+	outline: inherit;
+  height: 42px;
   position: relative;
   width: 48px;
 `;

@@ -2,6 +2,7 @@ import React from 'react';
 import DetailCard from '../components/DetailCard';
 import styledComponents from 'styled-components';
 import CommerceContext from '../context/CommerceContext';
+import Header from '../components/Header';
 
 class ProductDetail extends React.Component {
   constructor() {
@@ -24,6 +25,7 @@ class ProductDetail extends React.Component {
     const { showModal, handleModal } = this.context;
     return (
       <>
+        <Header props={this.props} />
         {
           showModal && (<Shadow onClick={ handleModal } />)
         }

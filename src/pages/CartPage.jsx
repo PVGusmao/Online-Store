@@ -1,7 +1,8 @@
 import React from "react";
 import CommerceContext from "../context/CommerceContext";
-import styledComponents, { css } from "styled-components";
+import styledComponents from "styled-components";
 import CardList from "../components/CardList";
+import Header from "../components/Header";
 
 class CartPage extends React.Component {
   handleTotalPrice = () => {
@@ -22,6 +23,7 @@ class CartPage extends React.Component {
     const { cart, showModal, handleModal } = this.context;
     return (
       <>
+        <Header props={this.props} />
       {
         showModal && (<Shadow onClick={ handleModal } />)
       }
