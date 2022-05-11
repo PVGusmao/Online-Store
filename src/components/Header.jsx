@@ -19,6 +19,7 @@ class Header extends React.Component {
 
   render() {
     const {
+      actualCurrency,
       cart,
       categorySelected,
       currency,
@@ -59,6 +60,7 @@ class Header extends React.Component {
             onChange={(e) => handleChangeCurrency(e)}
             name="currency"
             id="currency"
+            value={actualCurrency}
           >
             {currency.map((element, index) => (
               <CurrencyOptions value={element.label} key={index}>
