@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styledComponents, { css } from "styled-components";
 import CommerceContext from "../context/CommerceContext";
 import ShoppingCard from "./ShoppingCard";
@@ -178,6 +179,10 @@ const SectionTitle = styledComponents.h3`
   order: 0;
   text-align: left;
 `;
+
+Modal.propTypes = {
+  history: PropTypes.arrayOf(PropTypes.object),
+}.isRequired;
 
 Modal.contextType = CommerceContext;
 export default Modal;

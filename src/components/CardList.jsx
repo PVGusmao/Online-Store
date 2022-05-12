@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styledComponents, { css } from "styled-components";
 import CommerceContext from "../context/CommerceContext";
 import backButton from "../images/backButton.svg";
@@ -10,123 +11,133 @@ class CardList extends React.Component {
 
     this.state = {
       counter: 0,
-    }
+    };
   }
 
   handleClick = ({ target }) => {
-    const { element: { gallery } } = this.props;
-    if (target.alt === 'next') {
+    const {
+      element: { gallery },
+    } = this.props;
+    if (target.alt === "next") {
       this.setState((prevState) => ({
-        counter: prevState.counter === gallery.length - 1 ? 0 : prevState.counter + 1,
-      }))
+        counter:
+          prevState.counter === gallery.length - 1 ? 0 : prevState.counter + 1,
+      }));
     } else {
       this.setState((prevState) => ({
-        counter: prevState.counter === 0 ? gallery.length - 1 : prevState.counter - 1,
-      }))
+        counter:
+          prevState.counter === 0 ? gallery.length - 1 : prevState.counter - 1,
+      }));
     }
-  }
+  };
 
   render() {
     const { counter } = this.state;
-    const { element } = this.props;
+    const {
+      element: {
+        name,
+        brand,
+        prices,
+        quantity,
+        attributes,
+        selectedAttribute,
+        id,
+        gallery,
+      },
+    } = this.props;
     const { actualCurrency, handleQuantity, handleRemoveItem } = this.context;
     return (
       <>
         <ContentDetails>
-        <Name>{element.name}</Name>
-        <Brand>{element.brand}</Brand>
-        <Price className="price-tag">
-          {`${
-            element.prices.find(
-              (item) => item.currency.label === actualCurrency
-            ).currency.symbol
-          }
+          <Name>{name}</Name>
+          <Brand>{brand}</Brand>
+          <Price className="price-tag">
+            {`${
+              prices.find((item) => item.currency.label === actualCurrency)
+                .currency.symbol
+            }
               ${(
-                element.prices.find(
-                  (item) => item.currency.label === actualCurrency
-                ).amount * element.quantity
+                prices.find((item) => item.currency.label === actualCurrency)
+                  .amount * quantity
               ).toFixed(2)}`}
-        </Price>
-        <ExternalAttributeDiv>
-          {element.attributes.map((value, ind) => (
-            <div key={ind}>
-              <AttributeTit>{value.name.toUpperCase()}: </AttributeTit>
-              <AttributeList>
-                {value.items.map((items, index) => (
-                  <AttributeItems
-                    style={{
-                      backgroundColor:
-                        value.name.toLowerCase() === "color" && items.value,
-                    }}
-                    className={
-                      value.name.toLowerCase() === "color" &&
-                      Object.values(element.selectedAttribute).includes(
-                        items.value
-                      )
-                        ? "selected-attribute-color"
-                        : Object.values(element.selectedAttribute).includes(
-                            items.value
-                          ) && "selected-attribute"
-                    }
-                    key={index}
-                    name={items.value}
-                    id={
-                      value.id.toLowerCase().split(" ")[
-                        value.id.toLowerCase().split(" ").length - 1
-                      ]
-                    }
-                    onClick={this.handleAttributes}
-                  >
-                    {value.name.toLowerCase() === "color" ? "" : items.value}
-                  </AttributeItems>
-                ))}
-              </AttributeList>
-            </div>
-          ))}
-        </ExternalAttributeDiv>
+          </Price>
+          <ExternalAttributeDiv>
+            {attributes.map((value, ind) => (
+              <div key={ind}>
+                <AttributeTit>{value.name.toUpperCase()}: </AttributeTit>
+                <AttributeList>
+                  {value.items.map((items, index) => (
+                    <AttributeItems
+                      style={{
+                        backgroundColor:
+                          value.name.toLowerCase() === "color" && items.value,
+                      }}
+                      className={
+                        value.name.toLowerCase() === "color" &&
+                        Object.values(selectedAttribute).includes(items.value)
+                          ? "selected-attribute-color"
+                          : Object.values(selectedAttribute).includes(
+                              items.value
+                            ) && "selected-attribute"
+                      }
+                      key={index}
+                      name={items.value}
+                      id={
+                        value.id.toLowerCase().split(" ")[
+                          value.id.toLowerCase().split(" ").length - 1
+                        ]
+                      }
+                      onClick={this.handleAttributes}
+                    >
+                      {value.name.toLowerCase() === "color" ? "" : items.value}
+                    </AttributeItems>
+                  ))}
+                </AttributeList>
+              </div>
+            ))}
+          </ExternalAttributeDiv>
         </ContentDetails>
         <QuantityController>
           <PlusMinusButtomWrapper>
             <Plus
               id="plus"
-              value={element.id}
+              value={id}
               onClick={({ target }) => handleQuantity(target)}
               className="plus"
-              >
+            >
               +
             </Plus>
-            <Quantity>{element.quantity}</Quantity>
+            <Quantity>{quantity}</Quantity>
             <Minus
               id="minus"
-              value={element.id}
+              value={id}
               onClick={({ target }) => handleQuantity(target)}
               className="minus"
-              >
+            >
               -
             </Minus>
           </PlusMinusButtomWrapper>
           <ImageChangerWrapper>
-            <Image name={element.gallery[counter]} />
-            {
-            element.gallery.length > 1
-              && (
-                <>
-                  <ImageChangerBack
-                    onClick={ this.handleClick }
-                    src={ backButton }
-                    alt="previous"
-                  />
-                  <ImageChangerForward
-                    onClick={ this.handleClick }
-                    src={ forwardButton }
-                    alt="next"
-                  />
-                </>
-            )
-          }
+            <Image name={gallery[counter]} />
+            {gallery.length > 1 && (
+              <>
+                <ImageChangerBack
+                  onClick={this.handleClick}
+                  src={backButton}
+                  alt="previous"
+                />
+                <ImageChangerForward
+                  onClick={this.handleClick}
+                  src={forwardButton}
+                  alt="next"
+                />
+              </>
+            )}
           </ImageChangerWrapper>
           <RemoveWrapper>
-            <Remove id={ element.id } onClick={ handleRemoveItem } type="button">X</Remove>
+            <Remove id={id} onClick={handleRemoveItem} type="button">
+              X
+            </Remove>
           </RemoveWrapper>
         </QuantityController>
       </>
@@ -136,7 +147,7 @@ class CardList extends React.Component {
 
 const RemoveWrapper = styledComponents.div`
   height: 100%;
-`
+`;
 
 const Remove = styledComponents.button`
   background: darkred;
@@ -156,39 +167,39 @@ const Remove = styledComponents.button`
     background: white;
     color: black;
   }
-`
+`;
 
 const ExternalAttributeDiv = styledComponents.div`
   display: flex;
   flex-wrap: wrap;
   width: 600px;
-`
+`;
 
 const ImageChangerWrapper = styledComponents.div`
   display: flex;
   position: relative;
   bottom: 0;
   width: 300px;
-`
+`;
 const ImageChangerBack = styledComponents.img`
   bottom: 10px;
   cursor: pointer;
   margin: 2px;
   position: absolute;
   right: 50px;
-`
+`;
 const ImageChangerForward = styledComponents.img`
   bottom: 10px;
   cursor: pointer;
   margin: 2px;
   position: absolute;
   right: 20px;
-`
+`;
 
 const PlusMinusButtomWrapper = styledComponents.div`
   margin: 0px 20px ; 
   height: 100%;
-`
+`;
 
 const ContentDetails = styledComponents.section`
   align-items: flex-start;
@@ -369,6 +380,17 @@ const Image = styledComponents.div`
     `;
   }}
 `;
+
+CardList.propTypes = {
+  attributes: PropTypes.arrayOf(PropTypes.object),
+  brand: PropTypes.string,
+  id: PropTypes.number,
+  gallery: PropTypes.arrayOf(PropTypes.string),
+  name: PropTypes.string,
+  prices: PropTypes.arrayOf(PropTypes.object),
+  quantity: PropTypes.number,
+  selectedAttribute: PropTypes.instanceOf(PropTypes.object),
+}.isRequired;
 
 CardList.contextType = CommerceContext;
 export default CardList;

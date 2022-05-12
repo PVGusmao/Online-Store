@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from "prop-types";
 import DetailCard from '../components/DetailCard';
 import styledComponents from 'styled-components';
 import CommerceContext from '../context/CommerceContext';
@@ -42,6 +43,10 @@ const Shadow = styledComponents.div`
   width: 100%;
   z-index: 1;
 `;
+
+ProductDetail.propTypes = {
+  state: PropTypes.arrayOf(PropTypes.object),
+}.isRequired;
 
 ProductDetail.contextType = CommerceContext;
 export default ProductDetail;

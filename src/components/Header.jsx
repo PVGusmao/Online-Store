@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { css } from "styled-components";
 import CommerceContext from "../context/CommerceContext";
@@ -200,6 +201,10 @@ const ButtonCart = styled.button`
   outline: inherit;
   padding: 0;
 `;
+
+Header.propTypes = {
+  history: PropTypes.arrayOf(PropTypes.object),
+}.isRequired;
 
 Header.contextType = CommerceContext;
 export default Header;
