@@ -1,7 +1,14 @@
 import React from 'react';
 import renderWithRouter from '../renderWithRouter/renderWithRouter.jsx';
-import App from '../App';
+import { screen } from '@testing-library/react';
+import Home from '../pages/Home.jsx';
+import '@testing-library/jest-dom/extend-expect';
 
-it('should render App component', () => {
-  renderWithRouter(<App />);
-});
+describe('Tests that embrace all home page components and elements', () => {
+  it('should render App component', () => {
+    renderWithRouter(<Home />);
+    const navBar = screen.getByRole('navigation');
+    expect(navBar).toBeInTheDocument();
+  });
+})
+
