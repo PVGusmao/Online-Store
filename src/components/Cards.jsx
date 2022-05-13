@@ -12,7 +12,7 @@ class Cards extends React.Component {
     } = this.props;
     const { actualCurrency } = this.context;
     return (
-      <Card>
+      <Card data-testid="product-card">
         <Link
           to={{
             pathname: inStock ? `/productdetail/${id}` : "/",

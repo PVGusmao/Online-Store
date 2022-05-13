@@ -53,7 +53,7 @@ class Header extends React.Component {
               </Button>
             ))}
         </Nav>
-          <ButtonBack onClick={this.handleClick}>
+          <ButtonBack data-testid="back-btn" onClick={this.handleClick}>
             <ImageBack  src={BACK_LINK} alt="Back Icon" />
           </ButtonBack>
         <WrapperCartCurrency>
@@ -69,7 +69,7 @@ class Header extends React.Component {
               </CurrencyOptions>
             ))}
           </CurrencySelect>
-          <ButtonCart onClick={handleModal}>
+          <ButtonCart data-testid="cart-overlay-btn" onClick={handleModal}>
             <QuantityCartIndicator quantity={cart.length}>{ cart.length }</QuantityCartIndicator>
             <ImageCart src={SHOPPING_CART} alt="Shopping Cart Icon" />
           </ButtonCart>
