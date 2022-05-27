@@ -82,7 +82,7 @@ class DetailCard extends React.Component {
     const { clickedImage } = this.state;
     const { actualCurrency } = this.context;
     const {
-      details: { attributes, prices, name, gallery, description, brand },
+      details: { attributes, prices, name, gallery, description, brand, inStock },
     } = this.props;
 
     return (
@@ -153,7 +153,7 @@ class DetailCard extends React.Component {
                     }`}
               </PriceValue>
             </PriceWrapper>
-            <ButtomAddToCart onClick={this.handleClick}>
+            <ButtomAddToCart disabled={!inStock} onClick={this.handleClick}>
               ADD TO CART
             </ButtomAddToCart>
             <DetailsAbout dangerouslySetInnerHTML={{ __html: description }} />

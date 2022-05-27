@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styledComponents from "styled-components";
+import styledComponents, { css } from "styled-components";
 import CommerceContext from "../context/CommerceContext";
 import { Link } from "react-router-dom";
 
@@ -8,40 +8,59 @@ class Cards extends React.Component {
   render() {
     const {
       item,
-      item: { name, gallery, prices, inStock, id },
+      item: { name, gallery, prices, inStock, id, brand },
     } = this.props;
     const { actualCurrency } = this.context;
     return (
       <Card data-testid="product-card">
         <Link
+          className="link"
           to={{
-            pathname: inStock ? `/productdetail/${id}` : "/",
+            pathname: `/productdetail/${id}`,
             state: item,
           }}
         >
           <Image
-            style={{ opacity: !inStock ? 0.3 : 1 }}
+            stock={inStock}
             src={gallery[0]}
             alt={name}
           />
-        </Link>
-        <Name style={{ opacity: !inStock ? 0.3 : 1 }}>{name}</Name>
-        <Price style={{ opacity: !inStock ? 0.3 : 1 }}>
-          {`${
-            prices.find((element) => element.currency.label === actualCurrency)
+          <Brand stock={inStock}>{brand}</Brand>
+          <Name stock={inStock}>{name}</Name>
+          <Price stock={inStock}>
+            {`${
+              prices.find((element) => element.currency.label === actualCurrency)
               .currency.symbol
-          }
+            }
             ${
               prices.find(
                 (element) => element.currency.label === actualCurrency
-              ).amount
-            }`}
-        </Price>
+                ).amount
+              }`}
+          </Price>
         {!inStock && <OutOfStock>OUT OF STOCK</OutOfStock>}
+        </Link>
+          <Button stock={inStock} className="button-hover" type="button">Add to Cart</Button>
       </Card>
     );
   }
 }
+
+const Button = styledComponents.button`
+  display: none;
+  font-Size: 16px;
+  height: 50px;
+  left: 125px;
+  position: relative;
+  top: 75px;
+  width: 100px;
+  z-index: 2;
+
+  &:hover {
+    display: block;
+    opacity: 1;
+  }
+`
 
 const Card = styledComponents.section.attrs(() => ({ tabIndex: 0 }))`
   border: 1px solid rgba(0, 0, 0, 0.03);
@@ -62,15 +81,60 @@ const Card = styledComponents.section.attrs(() => ({ tabIndex: 0 }))`
 `;
 
 const Image = styledComponents.img`
-  height: 338px;
+  height: auto;
   position: absolute;
   width: 356px;
+
+  ${(props) => {
+    switch(!props.stock) {
+      case true:
+        return css`
+          opacity: 0.3;
+        `
+      default:
+        return css`
+        opacity: 1;
+      `
+    }
+  }}
+`;
+
+const Brand = styledComponents.h4`
+  font-Size: 20px;
+  position: relative;
+  top: 85%;
+
+  ${(props) => {
+    switch(!props.stock) {
+      case true:
+        return css`
+          opacity: 0.3;
+        `
+      default:
+        return css`
+        opacity: 1;
+      `
+    }
+  }} 
 `;
 
 const Name = styledComponents.h4`
   font-Size: 20px;
   position: relative;
   top: 85%;
+
+  ${(props) => {
+    switch(!props.stock) {
+      case true:
+        return css`
+          opacity: 0.3;
+        `
+      default:
+        return css`
+        opacity: 1;
+      `
+    }
+  }} 
 `;
 
 const Price = styledComponents.h5`
@@ -78,6 +142,19 @@ const Price = styledComponents.h5`
   font-Size: 18px;
   position: relative;
   top: 85%;
+
+  ${(props) => {
+    switch(!props.stock) {
+      case true:
+        return css`
+          opacity: 0.3;
+        `
+      default:
+        return css`
+        opacity: 1;
+      `
+    }
+  }}
 `;
 
 const OutOfStock = styledComponents.h2`
