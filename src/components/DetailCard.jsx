@@ -50,7 +50,7 @@ class DetailCard extends React.Component {
       details: { brand, gallery, name, prices, attributes },
     } = this.props;
     const { selectedAttribute } = this.state;
-    const { handleAddCart, cart, counter, handleCounter } = this.context;
+    const { handleAddCart, cart, counter, handleCounter, handleQuantitySimilar } = this.context;
 
     handleCounter();
 
@@ -74,7 +74,7 @@ class DetailCard extends React.Component {
         (element) =>
         JSON.stringify(element.selectedAttribute) !==
         JSON.stringify(selectedAttribute)
-      ) && handleAddCart(objCart);
+      ) ? handleAddCart(objCart) : handleQuantitySimilar(selectedAttribute);
     }
   };
 
@@ -196,7 +196,7 @@ const WrapperImageDescription = styledComponents.section`
 `;
 
 const ImageSelected = styledComponents.section`
-  height: 700px;
+  height: auto;
   width: 700px;
 
   ${(props) => {

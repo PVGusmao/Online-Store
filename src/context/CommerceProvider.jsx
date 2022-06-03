@@ -19,6 +19,11 @@ class CommerceProvider extends React.Component {
     }
   }
 
+  handleQuantitySimilar = (selectedAttribute) => {
+    const { cart } = this.state;
+    cart.find((element) => element.selectedAttribute === selectedAttribute).quantity += 1;
+  }
+
   handleRemoveItem = ({ target }) => {
     const { cart } = this.state;
     const filteredCart = cart.filter((element) => element.id !== +target.id);
@@ -98,6 +103,7 @@ class CommerceProvider extends React.Component {
             handleCounter: this.handleCounter,
             handleQuantity: this.handleQuantity,
             handleRemoveItem: this.handleRemoveItem,
+            handleQuantitySimilar: this.handleQuantitySimilar,
           } }
         >
           {children}

@@ -58,7 +58,7 @@ class CardList extends React.Component {
             }
               ${(
                 prices.find((item) => item.currency.label === actualCurrency)
-                  .amount * quantity
+                  .amount
               ).toFixed(2)}`}
           </Price>
           <ExternalAttributeDiv>

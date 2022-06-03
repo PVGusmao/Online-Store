@@ -14,7 +14,7 @@ class ShoppingCard extends React.Component {
           <Price className="price-tag">
             {
               `${element.prices.find((item) => item.currency.label === actualCurrency).currency.symbol}
-                ${(element.prices.find((item) => item.currency.label === actualCurrency).amount * element.quantity).toFixed(2)}`
+                ${(element.prices.find((item) => item.currency.label === actualCurrency).amount).toFixed(2)}`
             }
           </Price>
           <div>
@@ -125,7 +125,7 @@ const AttributeItems = styledComponents.div`
   font-family: 'Source Sans Pro';
   font-style: normal;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 10px;
   justify-content: center;
   line-height: 160%;
   margin: 0px 5px;
@@ -136,12 +136,12 @@ const AttributeItems = styledComponents.div`
       case 'color':
         return css`
           height: 16px;
-          width: 16px;
+          width: 20px;
         `;
       default:
         return css`
-        height: 24px;
-        width: auto;
+        height: 28px;
+        width: 32px;
         `;
     }
   }} 
@@ -222,9 +222,9 @@ const Minus = styledComponents.button`
 `;
 
 const Image = styledComponents.div`
-  height: 190px;
+  height: inherit;
   margin-left: 5px;
-  width: 120px;
+  width: 200px;
 
   ${(props) => {
     return css`
